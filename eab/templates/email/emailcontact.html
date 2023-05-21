@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+    <style>
+        body{
+            background-color:gray;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        .container{
+            margin-left: 150px;
+            margin-right: 150px;
+            background-color: white;
+            border-radius: 5px;
+        }
+
+        .fluid{
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+
+        h1{
+            background-color: black;
+            color: white;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+            text-align: center;
+        }
+
+        .center{
+            text-align: center;
+        }
+
+        .footer{
+            background-color: black;
+            padding-left: 10px;
+            padding-bottom: 10px;
+            color:white;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><b>{{ parametre.appname }}</b></h1>
+        <div class="fluid">
+            <p style="color: green;" class="center"> Vous recevez ce message en réponse à votre message envoyé à {{ parametre.appname }}.</p>
+            <strong>Notre équipe va vous répondre par votre adresse e-mail <b style="text-decoration: none;">{{ email }}</b> le plutôt possible.</strong>
+        </div>
+        <p class="center">Merci infinement pour votre visite.</p>
+        <p class="center">Envoyez le {{ date|date:"d/m/Y H:m" }}</p>
+        <div class="footer">
+            <h3 class="center">L'équipe {{ parametre.appname }}</h3>
+            <p>Téléphone : {{ parametre.phone }}</p>
+            <p>Email : <span style="text-decoration: none;">{{ parametre.email }} </span></p>
+        </div>
+        <br>
+    </div>
+</body>
+</html>

@@ -1,0 +1,120 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Modifier une expérience {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+          <i class="fa fa-list"></i> Expériences
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+          <li ><a href="{% url 'experience/experiences' %}">Expériences</a></li>
+          <li class="active">Modification</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h6 class="box-title"><i class="fa fa-plus"></i> Modification d'une expérience</h6>
+                        </div>
+                        <div class="box-body">
+                            <form method="post" action="" id="formUpdateExp">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-6">
+                                        <input type="text" name="id" value="{{ experience.id }}" hidden="True">
+                                        <div class="form-group">
+                                            <label for="type_exp">Type d'expérience *</label>
+                                            <select name="type_exp" id="type_exp" class="form-control" required>
+                                               {% if experience.type_exp == "Employé(e)" %}
+                                               <option value="Employé(e)">Employé(e)</option>
+                                               <option value="Stagiaire">Stagiaire</option>
+                                               {% else %}
+                                               <option value="Stagiaire">Stagiaire</option>
+                                               <option value="Employé(e)">Employé(e)</option>
+                                               {% endif %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="entreprise">Entreprise *</label>
+                                            <select name="entreprise" id="entreprise" class="form-control" required>
+                                               <option value="{{ experience.entreprise.id }}">{{ experience.entreprise }}</option>
+                                               {% for entreprise in entreprises %}
+                                               <option value="{{ entreprise.id }}">{{ entreprise.name }}</option>
+                                               {% endfor %}
+                                           </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="date_debut">Date de début *</label>
+                                           <input type="date" name="date_debut" id="date_debut" value="{{ experience.date_debut|date:"Y-m-d" }}" class="form-control" required> 
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="date_fin">Date de fin </label>
+                                           <input type="date" name="date_fin" id="date_fin" value="{{ experience.date_fin|date:"Y-m-d" }}" class="form-control"> 
+                                        </div>
+                                    </div>
+                                    <div  class="col-md-6 col-xs-6" id="contenu2">
+                                        {% if status %}
+                                            <div class="form-group">
+                                                <label for="posteoccupe">Poste occupé </label>
+                                                <input type="text" name="posteoccupe" id="posteoccupe" value="{{ experience.posteoccupe }}" class="form-control"> 
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="projet_mission">Projet/Mission effectué(e) </label>
+                                                <select name="projet_mission" id="projet_mission" class="form-control">
+                                                    {% if experience.projet_mission == "Projet" %}
+                                                    <option value="Projet">Projet</option>
+                                                    <option value="Mission">Mission</option>
+                                                    {% else %}
+                                                    <option value="Mission">Mission</option>
+                                                    <option value="Projet">Projet</option>
+                                                    {% endif %}
+                                                </select>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="title">Titre</label>
+                                                <input type="titre" name="title" id="title" value="{{ experience.title }}" class="form-control"> 
+                                            </div>
+                                        {% else %}
+                                            <div class="form-group">
+                                                <label for="projet">Projet effectué</label>
+                                                <input type="text" name="projet" id="projet" value="{{ experience.title }}" class="form-control"> 
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="tache">Tâche </label>
+                                                <input type="text" name="tache" id="tache" value="{{ experience.tache }}" class="form-control"> 
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12">
+                                        <a href="{% url 'experience/experiences' %}" class="btn btn-default btn-sm"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                        <button class="btn btn-primary btn-xs"><i class="fa fa-check"></i> Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div data-backdrop="True" class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content" style="background-color: rgb(28,36,47)">
+                                      <div class="modal-header text-center"><span style="color:white"><i class="fa fa-info"></i> Information</span>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="badge badge-warning" style="color:white">X</span></button>
+                                      </div>
+                                      <div class="modal-body" id="contenu_message"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %}

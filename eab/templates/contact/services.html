@@ -1,0 +1,62 @@
+{% extends 'global/base0.html' %}
+{% block title %} {{ parametre.appname }} | Services {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Content-->
+<div class="content-wrapper">
+    <div class="container">
+        <section class="content">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="text-center"><b><i class="fa fa-tags"></i> Services</b></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <p>EAJC est une plateforme de partage de connaissance scientifique dont l'objectif est d'aider les étudiants dans leur parcours scolaire.</p>
+                            <h4><b>Le principe</b></h4>
+                            <p>EAJC propose à ces membres qui rencontrent des difficultés la possibilité de poser des questions via le forum.</p>
+                            <p>Toutes les questions liées à la science sont la bienvenue. Il n y a pas de mauvaises ou bonnes questions, toutes les questions sont importantes, donc n'hesiter pas à poser votre questions, elle peut parfois aider quelqu'un.</p>
+                            <h4><b>Composition</b></h4>
+                            <p>La plateforme EAJC est structuré en trois(3) grandes parties. La première partie didiée au Curriculum Vitae (CV), la deuxième au forum et la troisième aux documents.</p>
+                            <h5><em>Curriculum Vitae (CV)</em></h5>
+                            <p>Sur cette plateforme on vous donne la possibilité de créer un compte, de se connecter sur votre compte puis renseigner votre parcours scolaire et professionnel (facultatif) et la plateforme va vous génerer un CV.</p>
+                            <p>Illustration : <br>
+                                <div><img class="img-fluid" width="700" height="700" src="{% static 'dist/img/cv.PNG' %}" alt="..." /></div>
+                            </p>
+                            <h5><em>Forum</em></h5>
+                            <p>Cette plateforme vous donne égalemeent la possibilité de discuter via un forum, c'est-à-dire poser et repondre aux questions.</p>
+                            <p>
+                                Illustration :<br>
+                                <div><img class="img-fluid" width="700" height="500" src="{% static 'dist/img/Forum.jpg' %}" alt="..." /></div>
+                            </p>
+                            <h5><em>Documents</em></h5>
+                            <p>Cette plateforme a mis à votre disponibilité des documents, ils sont gratuits et payants. La majorité des documents sont gratuits, les documents qui sont payants sont mis à un prix beaucoup moins important dans le but de vous aider.</p>
+                            <p>
+                                Illustration :<br>
+                                <div><img class="img-fluid" width="600" height="600" src="{% static 'dist/img/doc.jpg' %}" alt="..." /></div>
+                            </p>
+                            <h4><b>Comment s'incrire ?</b></h4>
+                            <p>Allez sur la barre de menu, cliquez sur <b>Se connecter</b> puis sur créer un compte situé tout en bas du formulaire.</p>
+                            <p>
+                                <div><img class="img-fluid" width="600" height="600" src="{% static 'dist/img/connexion.jpg' %}" alt="..." /></div>
+                            </p>
+                            <p>Renseignez tous les champs du formulaire indiqués ci-dessus, puis cliquez sur<b>Créer un compte</b> pour valider votre inscription.</p>
+                            <p>
+                                <div><img class="img-fluid" width="600" height="600" src="{% static 'dist/img/register.jpg' %}" alt="..." /></div>
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            {% include 'global/_slide.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+

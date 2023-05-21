@@ -1,0 +1,136 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Nouvelle question {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black;">
+                                <a href="{% url 'question/questions' %}" class="question" id="question" style="text-decoration: none; color: black;"><i class="fa fa-question"></i> <b>Liste des questions</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black; border-left: 2px solid black">
+                                <a href="{% url 'question/postquestion' %}" class="question" id="pquestion"  style="text-decoration: none"><i class="fa fa-edit"></i> <b class="text-primary">Posez une question</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black; border-left: 2px solid black">
+                                <a href="{% url 'question/listforum' %}" class="question" id="forum" style="text-decoration: none; color: black;"><i class="fa fa-folder"></i> <b>Liste des forums</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-left: 2px solid black">
+                                <a href="{% url 'question/my_questions' %}" class="question" id="mquestion" style="text-decoration: none; color: black;"><i class="fa fa-question-circle"></i> <b>Mes questions</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header">
+                      <h3 class="box-title text-info"><i class="fa fa-pencil"></i> <b>Posez une question</b></h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                        {{ form.media }}
+                                        <div class="form-group">
+                                            <input type="text" name="subject" class="form-control" placeholder="Entrer le sujet" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <textarea class="form-control ckeditor" name="content" rows="6" placeholder="tapez votre question ici ..."></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <select name="discipline" id="discipline" class="form-control" required>
+                                               <option value="">-- Selectionnez un forum --</option>
+                                               {% for discipline in disciplines %}
+                                               <option value="{{ discipline.id }}">{{ discipline.libelle }}</option>
+                                               {% endfor %}
+                                           </select>
+                                        </div>
+                                        <div id="Componentview">
+                                            <div class="form-group">
+                                                <select name="composant" id="composant" class="form-control" required>
+                                                    <option value="">-- Selectionnez un forum --</option>
+                                               </select>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <button class="btn btn-info btn-xs"><i class="fa fa-send"></i> Valider</button>
+                                </form>
+                            </div>
+                            <div class="col-md-5">
+                                    <div style="padding-left:30px">
+                                           <h4><b class="text-primary text-center">COMMENT POSER UNE BONNE QUESTION</b></h4> 
+                                           <h4><b>Les bonnes pratiques</b><h4>
+                                            <p><b class="text-primary">1.</b> Eviter les doublons<br>
+                                                En vérifiant que votre question n'est pas déjà répertoriée sur le forum, en recherchant par mot clé ou par catégorie par exemple.</p>
+
+                                            <p><b class="text-primary">2.</b> Rédigez un titre clair<br>
+                                                En définissant un titre court, spécifique à votre situation et compréhensible par l'ensemble des utilisateurs.</p>
+
+                                            <p><b class="text-primary">3.</b> Résumez votre question<br>
+                                                En précisant votre objectif, les résultats souhaités, et les éventuels problèmes que vous rencontrez.</p>
+
+                                            <h4><b>Les règles à respecter</b><h4>
+                                                <p>
+                                                    <div class="row">
+                                                        <div class="col-md-1 col-xs-2">
+                                                            <span class="btn btn-primary btn-circle btn-xs"><i class="fa fa-envelope"></i></span> 
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10">
+                                                            <span>Rédiger les messages dans un langage clair sans abréviations.</span>
+                                                        </div>
+                                                    </div>
+                                                </p>
+                                                <p>
+                                                    <div class="row">
+                                                        <div class="col-md-1 col-xs-2">
+                                                            <span class="btn btn-info btn-circle btn-xs"><i class="fa fa-cogs"></i></span> 
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10">
+                                                            <span>Faire usage de formule de politesse et échanger avec courtoisie.</span>
+                                                        </div>
+                                                    </div>
+                                                </p>
+                                                <p>
+                                                    <div class="row">
+                                                        <div class="col-md-1 col-xs-2">
+                                                            <span class="btn btn-warning btn-circle btn-xs"><i class="fa fa-cubes"></i></span> 
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10">
+                                                            <span>Réserver un accueil cordial aux nouveaux utilisateurs.</span>
+                                                        </div>
+                                                    </div>
+                                                </p>
+                                                <p>
+                                                    <div class="row">
+                                                        <div class="col-md-1 col-xs-2">
+                                                            <span class="btn btn-success btn-circle btn-xs"><i class="fa fa-check"></i></span>  
+                                                        </div>
+                                                        <div class="col-md-11 col-xs-10">
+                                                            <span>Poster son message dans le thème le plus approprié.</span>
+                                                        </div>
+                                                    </div>
+                                                </p>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

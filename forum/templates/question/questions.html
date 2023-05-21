@@ -1,0 +1,174 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Questions {% endblock %}
+{% block content %}
+{% load static %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black;">
+                                <a href="{% url 'question/questions' %}" class="question" id="question" style="text-decoration: none"><i class="fa fa-question"></i> <b class="text-primary">Liste des questions</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black; border-left: 2px solid black">
+                                <a href="{% url 'question/postquestion' %}" class="question" id="pquestion"  style="text-decoration: none; color: black;"><i class="fa fa-edit"></i> <b>Posez une question</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black; border-left: 2px solid black">
+                                <a href="{% url 'question/listforum' %}" class="question" id="forum" style="text-decoration: none; color: black;"><i class="fa fa-folder"></i> <b>Liste des forums</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-left: 2px solid black">
+                                <a href="{% url 'question/my_questions' %}" class="question" id="mquestion" style="text-decoration: none; color: black;"><i class="fa fa-question-circle"></i> <b>Mes questions</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+        <!-- Main content -->
+        <section class="content">
+
+          <!-- row -->
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="box-title text-info"><i class="fa fa-list"></i> <b>Liste des questions</b></h3>
+              <!-- The time line -->
+              <ul class="timeline">
+                <!-- timeline item -->
+                {% if questions %}
+                {% for question in questions %}
+                <li>
+                    {% if question.photo %}
+                    <img class="img-circle" width="40px" height="40px" src="{{ question.photo.url }}" alt="..." />
+                    {% else %}
+                    <img class="img-circle" width="40px" height="40px" src="{% static 'dist/img/user.png' %}" alt="..." />
+                    {% endif %}
+                  <div class="timeline-item">
+                    <span class="time">
+                        <i class="fa fa-clock-o"></i>
+                        {% if question.date.date == date.date %}
+                            {{ question.date|date:"h:m" }}
+                        {% else %}
+                            {{ question.date|date:"d/m/Y h:m" }}
+                        {% endif %}
+                    </span>
+                    <h2 class="timeline-header"><b>{{ question.subject }}</b></h2>
+                    <div class="timeline-body">
+                        <div class="row">
+                            <div class="col-lg-11 col-xs-10 col-md-11">
+                                {{ question.content|safe|truncatewords:50 }}
+                                <p>
+                                    {% if question.date > request.user.last_login %}
+                                        {% if question.user_id != request.user.id %}
+                                            <span class="label label-success"> Nouveau </span>
+                                        {% endif %}
+                                    {% endif %}
+                                </p>
+                            </div>
+                            <div class="col-lg-1 col-xs-2 col-md-1">
+                                <div class="text-center">
+                                {% if question.effectif == 0 %}
+                                        <a href="{% url 'question/answer' question.id %}">
+                                            <span class="btn btn-default btn-round btn-sm" style="border-radius: 100px;">
+                                                {{ question.effectif }}
+                                            </span>
+                                        </a>
+                                        <p>Reponse</p>
+                                        {% elif question.effectif == 1  %}
+                                        <a href="{% url 'question/answer' question.id %}">
+                                            {% if parametre %}
+                                            <span class="btn btn-primary btn-sm" style="border-radius: 100px;">
+                                                {{ question.effectif }}
+                                            </span>
+                                            {% else %}
+                                            <span class="btn btn-primary btn-sm" style="border-radius: 100px;">
+                                                {{ question.effectif }}
+                                            </span>
+                                            {% endif %}
+                                        </a>
+                                            {% if parametre %}
+                                            <p class="text-primary">Reponse</p>
+                                            {% else %}
+                                            <p>Reponse</p>
+                                            {% endif %}
+                                        {% else %}
+                                        <a href="{% url 'question/answer' question.id %}">
+                                            {% if parametre %}
+                                            <span class="btn btn-primary btn-sm" style="border-radius: 100px;">
+                                                {{ question.effectif }}
+                                            </span>
+                                            {% else %}
+                                            <span class="btn btn-dark btn-circle btn-sm" style="border-radius: 100px;">
+                                                {{ question.effectif }}
+                                            </span>
+                                            {% endif %}
+                                        </a>
+                                            {% if parametre %}
+                                            <p class="text-primary">Reponses</p>
+                                            {% else %}
+                                            <p class="text-primary">Reponses</p>
+                                            {% endif %}
+                                        {% endif %}
+                                </div>
+                                <!-- liste de membres Modal-->
+                                <div data-backdrop="True" class="modal fade" id="likeModal{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+                                        <div class="modal-content" id="vuelikes{{ question.id }}">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End liste de membres modal-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-footer">
+                      <b class="text-primary"><a href="{% url 'cv/profuser' question.user_id %}">{{ question.username }}</a></b> | {{ question.composant }} | <button class="like" id="{{ question.id }}" style="border: 0; background-color: white;">{% if question.status == 0 %} <i class="fa fa-thumbs-o-up"></i> {% else %} <i class="fa fa-thumbs-up"></i> {% endif %} J'aime <b>{{ question.countlikes }}</b></button> <a class="btn btn-primary btn-xs likes" style="border-radius: 100px;" id="{{ question.id }}" href="#" data-toggle="modal" data-target="#likeModal{{ question.id }}"><i class="fa fa-eye"></i></a>&nbsp;
+                      {% if request.user.is_superuser %}
+                      <a tabindex="-1" class="btn btn-danger btn-xs pull-right delquestion" id="{{question.id}}"><i class="fa fa-trash"></i> supprimer </a>
+                      {% endif %}
+                    </div>
+                  </div>
+                </li>
+                {% endfor %}
+                {% else %}
+                <p class="text-center"><b>Aucune question n'est disponible.</b></p>
+                {% endif %}
+                <!-- END timeline item -->
+              </ul>
+                            <!--Pagination-->
+                            <div class="row">
+                                <div class="col-md-12 text-center">
+                                    <ul class="pagination">
+                                        {% if questions.has_previous %}
+                                            <li class="page-item">
+                                                <a class="page-link text-dark" href="?page={{ questions.previous_page_number }}"><i class="fa fa-arrow-left"></i></a>
+                                            </li>
+                                        {% endif %}
+                                
+                                        <li class="page-item active">
+                                            <a class="page-link bg-dark" href="?page={{ questions.number }}">{{ questions.number }}</a>
+                                        </li>
+                                
+                                        {% if questions.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link text-dark" href="?page={{ questions.next_page_number }}"><i class="fa fa-arrow-right"></i></a>
+                                        {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--End pagination-->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+{% endblock %}
+
+      

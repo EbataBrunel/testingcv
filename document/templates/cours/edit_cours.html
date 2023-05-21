@@ -1,0 +1,112 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Modifier le cours {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+          <i class="fa fa-book"></i> Documents
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+          <li><a href="{% url 'cours/mescours' %}"> Mes documents</a></li>
+          <li class="active">Ajout</li>
+          
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                        <div class="box-header">
+                            <h6 class="box-title"><i class="fa fa-plus"></i> Modification d'un document</h6>
+                        </div>
+                        <div class="box-body">
+                            <form method="post" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div  class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="discipline">Discipline *</label>
+                                            <select name="discipline" id="discipline" class="form-control" required>
+                                                <option value="{{ cours.discipline.id }}">{{ cours.discipline }}</option>
+                                                {% for discipline in disciplines %}
+                                                <option value="{{ discipline.id }}">{{ discipline.libelle }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="composant">Composant *</label>
+                                            <select name="composant" id="composant" class="form-control" required>
+                                                <option value="{{ cours.composant.id }}">{{ cours.composant }}</option>
+                                                {% for composant in composants %}
+                                                    <option value="{{ composant.id }}">{{ composant.libelle }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="niveau">Niveau *</label>
+                                            <select name="niveau" id="niveau" class="form-control" required>
+                                                <option value="{{ cours.niveau }}">{{ cours.niveau }}</option>
+                                                <option value="Bac + 1">Bac + 1</option>
+                                                <option value="Bac + 2">Bac + 2</option>
+                                                <option value="Bac + 3">Bac + 3</option>
+                                                <option value="Bac + 4">Bac + 4</option>
+                                                <option value="Bac + 5">Bac + 5</option>
+                                                <option value="Bac + 6">Bac + 6</option>
+                                                <option value="Bac + 7">Bac + 7</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="file">Fichier *</label>
+                                            <input type="file" name="file" id="file" class="form-control">
+                                            <p>Actuellement : {{ cours.file.url }}</p>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="title">Titre *</label>
+                                            <input type="text" name="title" id="title" value="{{ cours.title }}" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="type">Type de cours *</label>
+                                            <select name="type" id="type" class="form-control" required>
+                                                {% if cours.type == "Graduit" %}
+                                                <option value="Graduit">Gratuit</option>
+                                                <option value="Payant">Payant</option>
+                                                {% else %}
+                                                <option value="Payant">Payant</option>
+                                                <option value="Graduit">Gratuit</option>
+                                                {% endif %}
+                                            </select>
+                                        </div>
+                                        <div id="priceview">
+                                            <div class="form-group">
+                                                <label for="price">Prix *</label>
+                                                <input type="number" name="price" id="price" value="{{ cours.price }}" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="comment">Commentaire </label>
+                                            <textarea name="comment" rows="8" class="form-control">{{ cours.comment }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="{% url 'cours/details-cours' cours.composant.id %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                        <button class="btn btn-primary btn-xs"><i class="fa fa-check"></i> Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container -->
+{% endblock %}

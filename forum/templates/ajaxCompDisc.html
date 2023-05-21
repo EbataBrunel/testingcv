@@ -1,0 +1,4 @@
+<option value="">-- Selectionnez un forum --</option>
+{% for composant in composants %}
+	<option value="{{ composant.id }}">{{ composant.libelle }}</option>
+{% endfor %}

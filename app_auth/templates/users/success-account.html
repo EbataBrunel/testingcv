@@ -1,0 +1,29 @@
+{% extends 'global/base0.html' %}
+{% block title %} EAJC | Success {% endblock %}
+{% block content %}
+{% load static %}
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row mt-3 bg-{{ parametre.theme }} text-white" style="border-radius: 5px;">
+                <h4 align="center" class="mt-4">Bravo <b>{{ user.last_name }} {{ user.first_name }}</b></h4>
+                <p class="text-center text-success">Votre compte a été crée avec success <br>
+                    <img width="50" height="50" style="border-radius: 100px;" src="{% static 'img/check.jpeg' %}">
+                </p>
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6">
+                    <h4>Verifier votre adresse e-mail <span class="text-info">{{ user.email }}</span> </h4>
+                    <p>1. Allez dans votre messagerie et rechercher le message de <b>eajc</b></p>
+                    <p>Cliquez sur le lien d'activation contenu dans l'e-mail que nous vous avons envoyé</p>
+                    <br>
+                    <h4>Vous n'avez pas reçu l'e-mail ?</h4>
+                    <p>Consultez votre dossier de courrier indesirable (spam).</p>
+                    <p>S'il n y a rien, il se peut que vous avez mal renseigné l'adresse e-mail lors de la création du compte. Dans ce cas envoyez nous votre adresse e-mail et votre nom et prenom pour qu'on verifie de notre côté.</p>
+                    <br>
+                </div>
+                <div class="col-lg-3"></div>
+            </div>
+            <!-- Call to Action-->
+            {% include 'global/_slide.html' %}
+        </div>
+{% endblock %}
+        

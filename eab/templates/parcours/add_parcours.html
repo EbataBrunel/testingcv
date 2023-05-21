@@ -1,0 +1,116 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Ajouter un parcours {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+          <i class="fa fa-cubes"></i> Parcours
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+          <li ><a href="{% url 'parcours/parcours' %}">Parcours</a></li>
+          <li class="active">Ajout</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h6 class="box-title"><i class="fa fa-plus"></i> Ajout d'un parcours</h6>
+                        </div>
+                        <div class="box-body">
+                            <p><i class="fa fa-warning text-warning"></i> Avant d'enregistrer un parcours, rassurez-vous d'avoir enrgistrer au préalable au moins un établissemnt et une formation.</p>
+                            <form method="post" action="" id="formPar">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6 col-xs-6">
+                                        <div class="form-group">
+                                            <label for="annee">Année 1 *</label>
+                                            <select name="annee" id="annee" class="form-control" required>
+                                               <option value="">-- Selectionnez --</option>
+                                               {% for annee in annees %}
+                                               <option value="{{ annee.id }}">{{ annee.libelle }}</option>
+                                               {% endfor %}
+                                           </select>
+                                        </div>
+                                        <div id="yearview">
+                                            <div class="form-group">
+                                                <label for="annee1">Année 2</label>
+                                                <select name="annee1" id="annee1" class="form-control" required>
+                                                    <option value="">-- Selectionnez --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="etablissement">Etablissement *</label>
+                                            <select name="etablissement" id="etablissement" class="form-control" required>
+                                                <option value="">-- Selectionnez --</option>
+                                                {% for etablissement in etablissements %}
+                                                <option value="{{ etablissement.id }}">{{ etablissement.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div  class="col-md-6 col-xs-6">
+                                        <div class="form-group">
+                                            <label for="formation">Formation *</label>
+                                            <select name="formation" id="formation" class="form-control" required>
+                                                <option value="">-- Selectionnez --</option>
+                                                {% for formation in formations %}
+                                                <option value="{{ formation.id }}">{{ formation.intitule }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="niveau">Niveau *</label>
+                                            <select name="niveau" id="niveau" class="form-control" required>
+                                                <option value="">-- Selectionnez --</option>
+                                                <option value="Baccalauréat">Baccalauréat</option>
+                                                <option value="Bac + 1">Bac + 1</option>
+                                                <option value="Bac + 2">Bac + 2</option>
+                                                <option value="Bac + 3">Bac + 3</option>
+                                                <option value="Bac + 4">Bac + 4</option>
+                                                <option value="Bac + 5">Bac + 5</option>
+                                                <option value="Bac + 6">Bac + 6</option>
+                                                <option value="Bac + 7">Bac + 7</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="status">Année en cours ?</label>
+                                            <select name="status" id="status" style="border-radius: 7px;" required>
+                                                <option value="Non">Non</option>
+                                                <option value="Oui">Oui</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 col-xs-12">
+                                        <a href="{% url 'parcours/parcours' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                        <button class="btn btn-info btn-xs"><i class="fa fa-check"></i> Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div data-backdrop="True" class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content" style="background-color: rgb(28,36,47)">
+                                      <div class="modal-header text-center"><span style="color:white"><i class="fa fa-info"></i> Information</span>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="badge badge-warning" style="color:white">X</span></button>
+                                      </div>
+                                      <div class="modal-body" id="contenu_message"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    <section class="content">
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %}

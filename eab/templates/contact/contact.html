@@ -1,0 +1,99 @@
+{% extends 'global/base0.html' %}
+{% block title %} {{ parametre.appname }} | Contact {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Content-->
+<div class="content-wrapper">
+    <div class="container">
+        <section class="content">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="text-center"><b><i class="fa fa-comment"></i> Contactez-nous</b></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <h4>Vous pouvez bien nous contacter à partir des coordonneés suivantes:</h4>
+                                            <br>
+                                            <table>
+                                                <tr>
+                                                    <td> <i class="fa fa-phone"></i> </td>
+                                                    <td> {{ parametre.phone }} </td>
+                                                </tr>
+                                                <tr>
+                                                    <td> <i class="fa fa-envelope"></i> </td>
+                                                    <td> {{ parametre.email }} </td>
+                                                </tr>
+                                            </table>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <form method="POST" action="" id="formContact">
+                                                {% csrf_token %}
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                            {{ form.name }}
+                                                            </div>
+                                                            <br>
+                                                            <div class="form-group">
+                                                            {{ form.email }}
+                                                            </div>
+                                                            <br>
+                                                            <div class="form-group">
+                                                            {{ form.subject }}
+                                                            </div>
+                                                            <br>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                            {{ form.message }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <button class="btn btn-primary btn-xs"><i class="fa fa-check"></i> Envoyer le message </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            <div data-backdrop="false" class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                                <div class="modal-dialog modal-sm" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header text-center bg-primary"><b>Information</b></div>
+                                                        <div class="modal-body" id="contenu_message"></div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <br>
+                        <div class="col-md-10 col-md-offset-1">
+                            {% include 'global/_slide.html' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+        

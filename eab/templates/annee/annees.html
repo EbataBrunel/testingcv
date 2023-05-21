@@ -1,0 +1,76 @@
+{% extends 'global/base.html' %}
+{% block title %} EAJC | Années {% endblock %}
+{% block content %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            <i class="fa fa-tags"></i> Gestion
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+            <li class="active">Années</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title text-info"><i class="fa fa-table"></i> <b>Liste des années</b></h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <div align="right">
+                    <a href="{% url 'annee/add_annee' %}" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Ajouter une année</a>
+                  </div>
+                  <br>
+                  <div class="table-responsive">
+                    <table id="example1" class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>Id</th>
+                          <th>Libellés</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for annee in annees %}
+                          <tr>
+                            <td>{{ annee.id }}</td>
+                            <td>{{ annee.libelle }}</td>
+                            <td>
+                              <a class="btn btn-default btn-xs" href="#" title="Supprimer" data-toggle="modal" data-target="#etabModal{{ annee.id }}"><i class="fa fa-trash"></i></a>&nbsp;
+                              <a href="{% url 'annee/edit_annee' annee.id %}" title="Modifier" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></a>
+
+                              <div class="modal fade" id="etabModal{{ annee.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true" style="border-radius: 10px;">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header danger">
+                                                <h5 class="modal-title" id="exampleModalLabel"><span align="center"><i class="fa fa-trash"></i> Suppression</span></h5>
+                                            </div>
+                                            <div class="modal-body">Voulez-vous vraiment supprimer cette année ?</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Annuler</button>
+                                                <a class="btn btn-danger btn-xs" href="{% url 'annee/del_annee' annee.id %}"><i class="fa fa-trash"></i> Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                          </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+      {% endblock %}

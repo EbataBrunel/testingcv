@@ -1,0 +1,72 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Ajouter un établissement {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {% for group in request.user.groups.all %}
+            {% if group.name == "admin" %}
+            <i class="fa fa-tags"></i> 
+            {% else %}
+            <i class="fa fa-university"></i> 
+            {% endif %}
+            {% endfor %}
+            Etablissements
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+          <li ><a href="{% url 'etablissement/etablissements' %}">Etablissements</a></li>
+          <li class="active">Ajout</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h6 class="box-title"><i class="fa fa-plus"></i> Ajout d'un établissement</h6>
+                        </div>
+                        <div class="box-body">
+                            <form method="post" action="" id="formEtab">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">
+                                        <div class="form-group">
+                                            <label for="name">Nom *</label>
+                                           <input type="text" name="name" class="form-control" required> 
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="country">Pays *</label>
+                                           <input type="text" name="country" class="form-control" required> 
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="city">Ville *</label>
+                                           <input type="text" name="city" class="form-control" required> 
+                                        </div>
+                                        <a href="{% url 'etablissement/etablissements' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                        <button class="btn btn-info btn-xs"><i class="fa fa-check"></i> Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div data-backdrop="True" class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content" style="background-color: rgb(28,36,47)">
+                                      <div class="modal-header text-center"><span style="color:white"><i class="fa fa-info"></i> Information</span>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="badge badge-warning" style="color:white">X</span></button>
+                                      </div>
+                                      <div class="modal-body" id="contenu_message"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+
+{% endblock %}

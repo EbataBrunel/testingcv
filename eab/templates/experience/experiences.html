@@ -1,0 +1,205 @@
+
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Experiences {% endblock %}
+{% block content %}
+{% load static %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            <i class="fa fa-list"></i> Expériences
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+            <li class="active">Experiences</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title text-info"><i class="fa fa-table"></i> <b>Liste des expériences</b> </h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div align="right">
+                        <a href="{% url 'experience/add_exp' %}" class="btn btn-default btn-sm"><i class="fa fa-plus"></i> Ajouter une expérience</a>
+                    </div>
+                    <br>
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                      <tr class="bg-{{ parametre.theme }}">
+                        <th>Id</th>
+                        <th>Types</th>
+                        <th>Entreprises</th>
+                        <th>DateDébut</th>
+                        <th>DateFin</th>
+                        <th>Visibilité</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for experience in experiences %}
+                        <tr>
+                            <td>{{ experience.id }}</td>
+                            {% if experience.type_exp == "Employé(e)" %}
+                                {% if request.user.profile.gender == "Masculin" %}
+                                <td>Employé</td>
+                                {% else %}
+                                <td>Employée</td>
+                                {% endif %}
+                            {% else %}
+                            <td>{{ experience.type_exp }}</td>
+                            {% endif %}
+                            <td>{{ experience.entreprise }}</td>
+                            <td>{{ experience.date_debut|date:"d/m/Y" }}</td>
+                            <td>{{ experience.date_fin|date:"d/m/Y" }}</td>
+                            <td class="stexp" id="{{ experience.id }}">
+                                {% if experience.status %}
+                                    <a href="#" class="btn btn-success btn-circle btn-xs text-light"><i class="fa fa-check"></i></a>
+                                {% else %}
+                                    <a href="#" class="btn btn-danger btn-circle btn-xs text-light"><i class="fa fa-remove"></i></a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#contactModal{{ experience.id }}"><i class="fa fa-trash"></i></a>&nbsp;
+                                <a href="{% url 'experience/edit_exp' experience.id %}" class="btn btn-default btn-xs"><i class="fa fa-edit"></i></a>&nbsp;
+                                <a href="#" data-toggle="modal" data-target="#detailModal{{ experience.id }}" title="Vue" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                                <!-- delete Modal-->
+                                <div class="modal fade" id="contactModal{{ experience.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true" style="border-radius: 10px;">
+                                    <div class="modal-dialog modal-sm" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-red">
+                                                <h5 class="modal-title" id="exampleModalLabel"><span align="center"><i class="fa fa-trash"></i> Suppression</span></h5>
+                                            </div>
+                                            <div class="modal-body">Voulez-vous vraiment supprimer l'expérience de {{ experience.type_exp }} ?</div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Annuler</button>
+                                                <a class="btn btn-danger btn-xs" href="{% url 'experience/del_exp' experience.id %}"><i class="fa fa-trash"></i> Supprimer</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- details Modal-->
+                                <div class="modal fade" id="detailModal{{ experience.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true" style="border-radius: 10px;">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-primary">
+                                                <h5 class="modal-title" id="exampleModalLabel"><span align="center"><b><i class="fa fa-eye"></i> Détails</b></span></h5>
+                                            </div>
+                                            <div class="modal-body">
+                                              <div class="row">
+                                                <div class="col-md-6 col-xs-12">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <th>Type d'expérience : </th>
+                                                            <td>
+                                                                {% if experience.type_exp == "Employé(e)" %}
+                                                                    {% if request.user.profile.gender == "Masculin" %}
+                                                                        Employé 
+                                                                    {% else %}
+                                                                        Employée 
+                                                                    {% endif %}
+                                                                {% else %}
+                                                                    {{ experience.type_exp }}
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Entreprise : </th>
+                                                            <td>{{ experience.entreprise }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Date de début : </th>
+                                                            <td>{{ experience.date_debut }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Date de fin : </th>
+                                                            <td>{{ experience.date_fin }}</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-md-6 col-xs-12">
+                                                    <table class="table">
+                                                        {% if status %}
+                                                        <tr>
+                                                            <th>Poste occupé : </th>
+                                                            <td>{{ experience.posteoccupe }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Projet ou mission effectué(e) : </th>
+                                                            <td>{{ experience.projet_mission }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th> Titre : </th>
+                                                            <td>{{ experience.title }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Statut<th>
+                                                            <td>
+                                                                {% if experience.status %}
+                                                                    <span class="badge badge-success">Visible</span>
+                                                                {% else %}
+                                                                    <span title="Publier" class="badge badge-danger">Invisible</span>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        {% else %}
+                                                        <tr>
+                                                            <th>Projet réalisé : </th>
+                                                            <td>{{ experience.title }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Tâche : </th>
+                                                            <td>{{ experience.tache }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Statut<th>
+                                                            <td>
+                                                                {% if experience.status %}
+                                                                    <span class="label label-success text-center">
+                                                                        Visible
+                                                                    </span>
+                                                                {% else %}
+                                                                    <span class="label label-danger text-center">
+                                                                        Invisible
+                                                                    </span>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                        {% endif %}
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                  </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+{% endblock %}
+
+
+
+
+

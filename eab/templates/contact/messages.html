@@ -1,0 +1,82 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Messages {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        <i class="fa fa-edit"></i> Tableau de bord
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+        <li class="active">Messages</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title text-info"><i class="fa fa-table"></i> <b>Liste des messages</b> </h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                    <div class="text-black">
+                        {% for contact in contacts %}
+                        <a href="{% url 'contact/detmes' contact.id %}" style="text-decoration: none">
+                        <div class="row">
+                            <div class="col-md-1 col-xs-2">
+                                {% if contact.user.profile.photo %}
+                                    <img class="img-circle img-fluid" width="40px" height="40px" src="{{ contact.user.profile.photo.url }}">
+                                {% else %}
+                                    <img class="img-circle img-fluid" width="40px" height="40px" src="{% static 'dist/img/user.png' %}">
+                                {% endif %}   
+                            </div>
+                            <div class="col-md-11 col-xs-10">
+                                    <span style=" color: black;"><b>{{ contact.user.last_name }} {{ contact.user.first_name }}</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small align="right"><i>{{ contact.datecontact|date:"d-m-Y h:m" }}</i></small>
+                                    {% if contact.statut == 0 %}
+                                    <p> {{ contact.message|truncatewords:20 }}</p>
+                                    {% endif %}
+                                    {% if contact.statut == 1 and contact.status == 1 %}
+                                    <p class="text-danger"><span class="badge badge-danger badge-counter">{{ contact.nombre }}</span> {{ contact.message|truncatewords:20 }}</p>
+                                    {% endif %}
+                                    {% if contact.statut == 1 and contact.status == 0 %}
+                                    <p> {{ contact.message|truncatewords:20 }}</p>
+                                    {% endif %}
+                                
+                            </div>
+                        </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                    <div class="text-black">
+                        {% for contact in contacts2 %}
+                        <a href="{% url 'contact/detmes' contact.id %}" style="text-decoration: none">
+                        <div class="row">
+                            <div class="col-md-1 col-xs-2">
+                                {% if contact.user.profile.photo %}
+                                    <img class="img-circle img-fluid" width="40px" height="40px" src="{{ contact.user.profile.photo.url }}">
+                                {% else %}
+                                    <img class="img-circle img-fluid" width="40px" height="40px" src="{% static 'img/user.png' %}">
+                                {% endif %} 
+                            </div>
+                            <div class="col-md-11 col-xs-10">  
+                                <span>
+                                    <span style=" color: yellow;"><b>{{ contact.user.last_name }} {{ contact.user.first_name }}</b></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<small align="right"><i>{{ contact.datecontact|date:"d-m-Y h:m" }}</i></small>
+                                    <p>{{ contact.message|truncatewords:20 }}</p>
+                                </span>
+                            </div>
+                        </div>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>   
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

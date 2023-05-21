@@ -1,0 +1,155 @@
+{% extends 'global/base0.html' %}
+{% block title %} {{parametre.appname}} | Documents {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Content-->
+<div class="content-wrapper">
+    <div class="container">
+        <section class="content">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <p class="mt-1 text-center" id="panier">
+                        {% if count %}
+                        <a href="{% url 'commande/panier' %}" class="btn btn-default btn-sm" style="background-color: rgb(21, 139, 142); color:white;"><i class="fa fa-shopping-cart"></i> Panier <b class="badge badge-danger" style="color: yellow;">{{ count }}</b></a>
+                        {% else %}
+                        <a class="btn btn-default btn-sm" style="background-color: rgb(21, 139, 142); color:white;"><i class="fa fa-shopping-cart"></i> Panier <b class="badge badge-danger">{{ count }}</b></a>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <h4 align="center"><b><i class="fa fa-book"></i> Liste des documents</b></h4>
+                              <div class="box box-solid box-default">
+                                <div class="box-header">
+                                    <h3 class="box-title">
+                                        <a href="{% url 'cours/cours' %}" style="text-decoration: none; color: black;"><b><i class="fa fa-folder"></i> Thèmes</b></a>
+                                    </h3>
+                                </div><!-- /.box-header -->
+                                <div class="box-body">
+                                    <div class="row" style="margin-left: 5px; margin-right: 5px">
+                                        {% for comp in composants %}
+                                        <div class="col-lg-3 col-xs-6 desp" style="border-radius: 20px; border: 2px solid gray; ">
+                                            <a href="#" id="{{ comp.id }}" class="ourview" style="text-decoration:none; font-family: Georgia, serif;">
+                                            <p class="text-center"><b>{{ comp.libelle }} ({{ comp.effectif }})</b></p>
+                                            </a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div><!-- /.box -->
+                            </div>
+                            <div class="row" id="courseview">
+                                {% for course in cours %}
+                                <div class="col-md-4 col-lg-4 col-xs-6">
+                                    <div class="panel panel-default h-100 shadow">
+                                        <div class="panel-header bg-default">
+                                            <h5 class="text-center"><b>{{ course.discipline }} | {{ course.composant }}</b></h5>
+                                        </div>
+                                        <div class="panel-body" style="border-radius: 10px;">
+                                            <h5 class="text-center" style="font-family: Georgia, serif;">{{ course.title }}</h5>
+                                            <p class="text-center"><small><b>{{ course.niveau }}</b></small></p>
+                                            {% if course.type == "Payant" %}
+                                            <p class="text-center"><b class="text-light bg-danger" style="padding:5px;border-radius: 5px;"> {{ course.price }} {{ parametre.devise }}</b></p>
+                                            {% else %}
+                                            <p class="text-center"><b class="text-light bg-success" style="padding:5px;border-radius: 5px;"> {{ course.price }} {{ parametre.devise }}</b></p>
+                                            {% endif %}
+                                        </div>
+                                        <div class="panel-footer">
+                                            <a class="btn btn-default btn-xs" href="{% url 'cours/details' course.id %}"><i class="fa fa-eye"></i> Détails</a>&nbsp;
+                                            {% if request.user.is_authenticated %}
+                                                {% if course.type == "Payant" %}
+                                                <button class="btn btn-default btn-xs addpanier" id="{{ course.id }}" style="background-color: rgb(21, 139, 142); color:white;"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
+                                                {% else %}
+                                                <a href="{{ course.file.url }}" class="btn btn-default btn-xs" style="background-color: rgb(184, 191, 45);"><i class="fa fa-upload"></i> Télécharger</a>
+                                                {% endif %}
+                                            {% else %}
+                                                {% if course.type == "Payant" %}
+                                                <a href="#"  data-toggle="modal" data-target="#DocPayantModal" class="btn btn-default btn-xs" style="background-color: rgb(21, 139, 142); color:white;"><i class="fa fa-shopping-cart"></i> Ajouter au panier</a>
+                                                {% else %}
+                                                <a href="#" data-toggle="modal" data-target="#DocGratuitModal" class="btn btn-default btn-xs" style="background-color: rgb(184, 191, 45);"><i class="fa fa-upload"></i> Télécharger</a>
+                                                {% endif %}
+                                            {% endif %}
+                                            <span style="float: right;">{{ course.date|date:"d/m/Y" }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- Alerts -->
+                                <!--Pagination-->
+                                <div class="row">
+                                    <div class="col-lg-4 col-lg-offset-4 text-center">
+                                        <ul class="pagination">
+                                            {% if cours.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link text-dark" href="?page={{ cours.previous_page_number }}"><i class="fa-arrow-circle-left"></i></a>
+                                                </li>
+                                            {% endif %}
+                                    
+                                            <li class="page-item active">
+                                                <a class="page-link bg-dark" href="?page={{ cours.number }}">{{ cours.number }}</a>
+                                            </li>
+                                    
+                                            {% if cours.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link text-dark" href="?page={{ cours.next_page_number }}"><i class="fa-arrow-circle-right"></i></a>
+                                            {% endif %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--End pagination-->
+                            </div>
+                            <!-- Document payant Modal-->
+                            <div class="modal fade" id="DocPayantModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary" style="color:white;">
+                                            <h4 class="modal-title" id="exampleModalLabel"><span align="center">Information</span></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        <p class="text-warning"><i class="fa fa-warning"></i> Vous devez d'abord vous connecter pour ajouter ce document au panier.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <a class="btn btn-primary btn-xs pull-left" href="{% url 'users/register' %}"><i class="fa fa-user"></i> Créer un compte</a>
+                                            <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+                                            <a class="btn btn-danger btn-xs pull-left" href="{% url 'connection/connexion' %}"><i class="fa fa-key"></i> Se connecter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Document gratuit Modal-->
+                            <div class="modal fade" id="DocGratuitModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary" style="color:white;">
+                                            <h4 class="modal-title" id="exampleModalLabel"><span align="center"> Information</span></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        <p class="text-warning"><i class="fa fa-warning"></i> Vous devez d'abord vous connecter pour télécharger ce document.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                        <a class="btn btn-primary btn-xs pull-left" href="{% url 'users/register' %}"><i class="fa fa-user"></i> Créer un compte</a>
+                                            <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+                                            <a class="btn btn-danger btn-xs pull-left" href="{% url 'connection/connexion' %}"><i class="fa fa-key"></i> Se connecter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        {% include 'global/_slide.html' %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+        

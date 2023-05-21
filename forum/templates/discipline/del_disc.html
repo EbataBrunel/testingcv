@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %} EAJC | Suppression d'une année {% endblock %}
+{% block content %}
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <small><a href="{% url 'dashboard' %}" style="color:black">Tableau de bord</a> < <a href="{% url 'discipline/disciplines' %}" style="color:black">Disciplines</a> < Suppression </small>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4 border-bottom-primary">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold"><i class="fa fa-trash"></i> Suppression</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="col-md-12">
+                                <p>Voulez-vous vraiment supprimer la discipline : {{ discipline.libelle }} ?</p>
+                                <form action="" method="post">{% csrf_token %}
+                                    <a href="{% url 'discipline/disciplines' %}" class="btn btn-primary btn-sm"><i class="fa fa-arrow-circle-left"></i> Non, revenir à la page précédente</a>
+                                    <input type="submit" class="btn btn-danger btn-sm" value="Oui, je suis sur">
+                                </form>
+                          </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+{% endblock %}

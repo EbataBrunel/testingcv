@@ -1,0 +1,89 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Liste des composants {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Documents
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+        <li><a href="{% url 'cours/mescours' %}">Disciplines</a></li>
+        <li class="active">Composants</li>
+      </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                        <div class="box-header">
+                            {% for group in request.user.groups.all %}
+                                {% if group.name == "admin" %}
+                                <h6 class="box-title text-info"><i class="fa fa-table"></i> Mes documents | Liste des composants de <b>{{ discipline }}</b> </h6>
+                                {% else %}
+                                <h6 class="box-title text-info"><i class="fa fa-table"></i> Liste des composants de <b>{{ discipline }}</b> </h6>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="box-body">
+                            <div class="table-responsive">
+                                <table id="example1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class="bg-{{ parametre.theme }} text-white">
+                                            <th>Composants</th>
+                                            <th>NombreDocuments</th>
+                                            <th>Notifications</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for comp in composants %}
+                                        <tr>
+                                            <td>{{ comp.composant }}</td>
+                                            <td><span class="badge badge-secondary">{{ comp.effectif }}</span></td>
+                                            {% if comp.countnotif == 0 %}
+                                            <td><span class="badge badge-dark">{{ comp.countnotif }}</span></td>
+                                            {% else %}
+                                            <td><span class="badge badge-success">{{ comp.countnotif }}</span></td>
+                                            {% endif %}
+                                            <td>
+                                                <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#contactModal{{ comp.composant.id }}"><i class="fa fa-trash"></i></a>&nbsp;
+                                                <a href="{% url 'cours/details-cours' comp.composant.id %}" title="Vue" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+                                                <!-- Logout Modal-->
+                                                <div class="modal fade" id="contactModal{{ comp.composant.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                    <div class="modal-dialog modal-sm" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header danger" style="color:white;">
+                                                                <h5 class="modal-title" id="exampleModalLabel"><span align="center"><i class="fa fa-trash"></i> Suppression</span></h5>
+                                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">Voulez-vous vraiment supprimer tous les documents de {{ comp.composant }} ?</div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Annuler</button>
+                                                                <a class="btn btn-danger btn-xs" href="{% url 'deldoccomposant' comp.composant.id %}"><i class="fa fa-trash"></i> Supprimer</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <br>
+                            <a href="{% url 'cours/mescours' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour </a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container -->
+{% endblock %}

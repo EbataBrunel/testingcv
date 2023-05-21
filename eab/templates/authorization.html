@@ -1,0 +1,36 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Authorisation {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            <a href="{% url 'dashboard' %}" style="color:black"><i class="fa fa-dashboard"></i> Tableau de bord </a>
+        </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6 col-md-offset-3">
+                                <div class="alert alert-warning text-center">
+                                    <p style="font-size: 50px;"><i class="fa fa-warning"></i></p>
+                                    <b>Attention, vous n'êtes pas authorisés à acceder à cette page.</b>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <a href="{% url 'dashboard' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Accueil </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

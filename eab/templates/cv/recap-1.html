@@ -1,0 +1,211 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Récapitulatif {% endblock %}
+{% block content %}
+{% load static %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+              <i class="fa fa-file"></i> Curriculum Vitae (CV)
+            </h1>
+          </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="box">
+                    <div style="padding-left: 20px; padding-right: 20px;">
+                        <br>
+                        <p>
+                            <a href="{% url 'cv/recap' %}" class="btn btn-default btn-xs">CV-0</a>&nbsp;
+                            <a href="{% url 'cv/recap-1' %}" class="btn btn-primary btn-xs">CV-1</a>
+                        </p>
+                        <div class="row">
+                            <div class="col-md-12" style="background-color: rgb(0, 98, 98); border-radius: 10px; color:white">
+                                <div class="row">
+                                    <div class="col-md-10 col-md-offset-1">       
+                                        <div class="row">
+                                            <div class="col-md-8 col-xs-8">
+                                                <h3><b>{{ request.user.last_name }} {{ request.user.first_name }}</b></h3>
+                                                <p><b>{{ request.user.profile.profession }}</b></p>
+                                                <table>
+                                                    <tr>
+                                                        <th style="padding-left: 15px;"><i class="fa fa-home"></i></th>
+                                                        <td style="padding-left: 15px;">{{ request.user.profile.address }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="padding-left: 15px;"><i class="fa fa-phone"></i></th>
+                                                        <td style="padding-left: 15px;"> {{ request.user.profile.phone }}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th style="padding-left: 15px;"><i class="fa fa-envelope"></i></th>
+                                                        <td style="padding-left: 15px;"> {{ request.user.email }} </td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-md-4 col-xs-4">
+                                                <p>
+                                                    {% if request.user.profile.photo %}
+                                                    <div class="text-center"><img class="img-circle img-fluid" width="170px" height="200px" src="{{ request.user.profile.photo.url }}" alt="..." /></div>
+                                                    {% else %}
+                                                    <div class="text-center"><img class="img-circle img-responsive" width="170px" height="200px" src="{% static 'dist/img/user.png' %}" alt="..." /></div>
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {% if request.user.profile.apropos %}
+                                                    <span style="text-align: center; font-size: 20px;"><b><i class="fa fa-user"></i> Profil</b></span>
+                                                    <div style="border-top: 4px solid white; border-radius: 5px; padding: 5px;">
+                                                        {{ request.user.profile.apropos }}
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <br>
+                                                <div class="bg-gray text-white" style="border-radius:10px; padding-top: 5px;">
+                                                    <div style="margin-left: 15px; margin-right: 15px;">
+                                                    <!-- Formation -->
+                                                    {% if request.user.profile.vform == "Visible" %}
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="bg-black text-white text-center" style="border-radius: 10px; padding: 10px; margin-top: 10px;"><i class="fa fa-graduation-cap"></i> FORMATIONS</div>
+                                                            {% if countpar == 0 %}
+                                                                <p class="text-center">Aucune donnée de formation n'est disponible.</p>
+                                                            {% else %}
+                                                            {% for par in parcours %}
+                                                                {% if par.status == 1 %}
+                                                                    <h4 style="margin-left: 15px;"><b class="text-success"><b>{{ par.annee }} -  {{ par.annee1 }}</b> : {{ par.formation }} | {{ par.niveau }}</b></h4>
+                                                                    <p style="padding-left: 50px;">
+                                                                        <b>{{ par.etablissement }}</b>, {{ par.etablissement.city }} ({{ par.etablissement.country }})
+                                                                    </p>
+                                                                    {% if par.statusan == "Oui" %}  
+                                                                    <p class="text-success" style="padding-left: 50px;">Année en cours ...</p>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    <!-- Experience professionnelle -->
+                                                    {% if request.user.profile.vep == "Visible" %}
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="bg-black text-white text-center" style="border-radius: 10px; padding: 10px"><i class="fa fa-list"></i> EXPERIENCES PROFESSIONNELLES</div>
+                                                            {% if countexp == 0 %}
+                                                                <p class="text-center">Aucune donnée d'expérience n'est disponible.</p>
+                                                            {% else %}
+                                                            {% for experience in experiences %}
+                                                                {% if experience.posteoccupe %}
+                                                                <p>
+                                                                    <h4>
+                                                                        <span style="padding-left: 15px;"><b class="text-success"> {{ experience.posteoccupe }}</b></span>
+                                                                        <small class="pull-right">du {{ experience.date_debut|date:"d/m/Y" }} au {{ experience.date_fin|date:"d/m/Y" }}</small>
+                                                                    </h4>
+                                                                    <span style="margin-left: 30px;"><b>{{ experience.entreprise }}</b>, {{ experience.entreprise.city }} ({{ experience.entreprise.country }})</span><br>
+                                                                    <span style="padding-left: 15px;">
+                                                                    <b>{{ experience.projet_mission }} : </b>
+                                                                        {{ experience.title }} 
+                                                                    </span>
+                                                                </p>
+                                                                {% else %}
+                                                                <p>
+                                                                    <h4>
+                                                                        <span style="padding-left: 15px;"><b class="text-success"> {{ experience.type_exp }}</b></span>
+                                                                        <small class="pull-right">du {{ experience.date_debut|date:"d/m/Y" }} au {{ experience.date_fin|date:"d/m/Y" }}</small>
+                                                                    </h4>
+                                                                    <strong style="padding-left: 30px;">{{ experience.entreprise }}</strong>, {{ experience.entreprise.city }} ({{ experience.entreprise.country }})<br>
+                                                                    <strong style="padding-left: 15px;">Projet : </strong>{{ experience.title }}<br>
+                                                                    <span style="padding-left: 15px;">
+                                                                        <b>Tache effctuée : </b>
+                                                                        {{ experience.tache }} 
+                                                                    </span>
+                                                                </p>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    <!-- Competence -->
+                                                    {% if request.user.profile.vcomp == "Visible" %}
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="bg-black text-center" style="color:white; border-radius: 10px; padding: 10px; margin-top: 8px; margin-bottom: 8px;"><i class="fa fa-edit"></i> COMPETENCES</div>
+                                                            {% if countcomp == 0 %}
+                                                                <p class="text-center">Aucune donnée de compétence n'est disponible.</p>
+                                                            {% else %}
+                                                                <p>
+                                                                    {% for competence in competences %}
+                                                                        <span>{{ competence.name }}, </span>
+                                                                    {% endfor %}
+                                                                </p>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div> 
+                                                    {% endif %}
+                                                    <!-- Autre formation -->
+                                                    {% if request.user.profile.vaform == "Visible" %}
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="bg-black text-white text-center" style="border-radius: 10px; padding: 10px; margin-bottom: 8px;"><i class="fa fa-inbox"></i> AUTRES INFORMATIONS</div>
+                                                            <ul>
+                                                                <b>Langues </b>
+                                                                {% if cpLangue %}
+                                                                    <small>
+                                                                        {% for competence in competenceLangues %}
+                                                                            
+                                                                                <li style="list-style-type: none;">{{ competence.name}} :</li>
+                                                                                <input type="range" value="{{ competence.comment }}" class="h-10" min="0" max="100" step="5">
+                                                                            
+                                                                        {% endfor %}
+                                                                    </small>
+                                                                {% else %}
+                                                                <small style="padding-left:10px"><span class="text-warning">Enregistrer le type de competence Langue</small>
+                                                                {% endif %}
+                                                            </ul>
+                                                            <ul>
+                                                                <b>Centres d'interêts : </b>
+                                                                {% if cpLoisir %}
+                                                                <li style="list-style-type: none;">
+                                                                    {% for competence in competenceLoisirs %}
+                                                                    {{ competence.name}}, 
+                                                                    {% endfor %}
+                                                                </li>
+                                                                {% else %}
+                                                                <li style="list-style-type: none"><span class="text-warning">Enregistrer le type de competence Loisir</li>
+                                                                {% endif %}
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                    {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <p>
+                            <a href="{% url 'cv/generatecv-1' %}" class="btn btn-primary btn-sm"><i class="fa fa-download"></i> Télécharger le CV</a>
+                        </p>
+                        <br>
+                    </div>  
+                </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <!-- /.container -->
+
+{% endblock %}
+

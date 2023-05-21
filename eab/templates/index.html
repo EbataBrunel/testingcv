@@ -1,0 +1,127 @@
+{% extends 'global/base0.html' %}
+{% block title %} {{ parametre.appname }} | Accueil {% endblock %}
+{% block content %}
+{% load static %}
+
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <div class="container">
+      <!-- Content Header (Page header) -->
+      <section class="content-header">
+        <h1>
+          <i class="fa fa-home"></i> Accueil
+        </h1>
+      </section>
+      <!-- Main content -->
+      <section class="content">
+        
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <div class="row">
+                <div class="col-md-6">
+                    <!-- search form -->
+                    <form method="post" action="" class="sidebar-form">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="text" name="name" class="form-control" placeholder="Recherche ...">
+                            <span class="input-group-btn">
+                                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- /.search form -->
+                </div>
+            </div>
+          </div>
+          <div class="box-body">
+            <!-- Heading Row-->
+            {% if users %}
+            {% for user in users %}
+            <div class="row">
+                <div class="col-md-4">
+                    {% if user.profile.photo %}
+                    <div class="text-center"><img class="img-circle" width="170px" height="200px" src="{{ user.profile.photo.url }}" alt="Profil" /></div>
+                    {% else %}
+                    <div class="text-center"><img class="img-circle mb-4" width="170px" src="{% static 'dist/img/user.png' %}" alt="Profil" /></div>
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <h3><b>{{ user.last_name|upper }} {{ user.first_name }}</b></h3>
+                    <p>{{ user.profile.apropos|truncatewords:50 }}</p>
+                    
+                    {% if request.user.is_authenticated %}
+                        {% if request.user.id == user.id %}
+                        <a class="btn btn-default btn-xs" href="{% url 'cv/cv' user.id %}"><i class="fa fa-user"></i> Voir ton profil</a>
+                        {% else %}
+                        <a class="btn btn-default btn-xs" href="{% url 'cv/cv' user.id %}"><i class="fa fa-user"></i> Voir son profil</a>&nbsp;
+                        <a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Supprimer</a>&nbsp;
+                            {% if user.profile.droitmes == 1 %}
+                            <a href="{% url 'contact/contactuser' user.id %}" class="btn btn-primary btn-xs"><i class="fa fa-envelope"></i> Envoyer un message</a>
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                        <a class="btn btn-default btn-xs" href="{% url 'cv/cv' user.id %}"><i class="fa fa-user"></i> Voir son profil</a>&nbsp;
+                        {% if user.profile.droitmes == 1 %}
+                            <a href="#" data-toggle="modal" data-target="#MessageModal" class="btn btn-primary btn-xs"><i class="fa fa-envelope"></i> Envoyer un message</a>
+                            <!-- Document payant Modal-->
+                            <div class="modal fade" id="MessageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary text-white">
+                                            <h4 class="modal-title" id="exampleModalLabel"><span align="center">Information</span></h4>
+                                        </div>
+                                        <div class="modal-body">
+                                        <p class="text-warning"><i class="fa fa-warning"></i> Vous devez d'abord vous connecter pour envoyer un message à <b>{{ user.last_name }} {{ user.first_name }}</b>.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a class="btn btn-primary btn-xs pull-left" href="{% url 'users/register' %}"><i class="fa fa-user"></i> Créer un compte</a>
+                                            <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+                                            <a class="btn btn-danger btn-xs pull-left" href="{% url 'connection/connexion' %}"><i class="fa fa-key"></i> Se connecter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                    <hr>
+                </div>
+            </div>
+            <br>
+            {% endfor %}
+            {% else %}
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center"><b>Aucune donnée n'est disponible</b></p>
+                </div>
+            </div>
+            {% endif %}
+            <!--Pagination-->
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4 text-center">
+                    <ul class="pagination">
+                        {% if users.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link text-dark" href="?page={{ users.previous_page_number }}"><i class="fa-arrow-circle-left"></i></a>
+                            </li>
+                        {% endif %}
+                
+                        <li class="page-item active">
+                            <a class="page-link bg-dark" href="?page={{ users.number }}">{{ users.number }}</a>
+                        </li>
+                
+                        {% if users.has_next %}
+                        <li class="page-item">
+                            <a class="page-link text-dark" href="?page={{ users.next_page_number }}"><i class="fa-arrow-circle-right"></i></a>
+                        {% endif %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--End pagination-->
+          </div><!-- /.box-body -->
+        </div><!-- /.box -->
+      </section><!-- /.content -->
+    </div><!-- /.container -->
+  </div><!-- /.content-wrapper -->
+{% endblock %}

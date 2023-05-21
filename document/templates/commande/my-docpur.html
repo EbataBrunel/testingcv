@@ -1,0 +1,86 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Documents vendus {% endblock %}
+{% block content %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            <i class="fa fa-dashboard"></i> Tableau de bord
+          </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+
+                <div class="box">
+                    <div class="box-header">
+                        <h6 class="box-title"><i class="fa fa-book"></i> Documents vendus </h6>
+                    </div>
+                <div class="box-body">
+                            <div class="row">
+                                {% for achat in achats %}
+                                <div class="col-md-4">
+                                    <div class="panel panel-default shadow" style="box-shadow: 2px;">
+                                        <div class="panel-body">
+                                            {% for k, v in achat.items %}
+                                          <h5 class="card-title text-center">Document n° <b class="text-danger">{{ k }}</b></h5>
+                                          <p class="card-text text-center">
+                                            <a href="#" data-toggle="modal" data-target="#detail{{k}}" style="text-decoration: none;" class="btn btn-primary btn-sm"><i class="fa fa-eye"></i> Voir plus </a>
+                                          </p>
+
+                                          <!-- Repondre Modal-->
+                                            <div class="modal fade" id="detail{{ k }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header bg-primary">
+                                                            <h5 class="modal-title" id="exampleModalLabel"><span align="center">Détail de l'achat n° <b class="text-danger">{{ k }}</b></span></h5>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            {% for cours in v %}
+                                                            <div class="panel panel-default shadow" style="box-shadow: 2px;">
+                                                                <div class="panel-body">
+                                                                    <p class="text-center"><b>Achat n° <span class="text-danger">{{ cours.id }} </span> fait le {{ cours.date|date:"d/m/Y" }}</b></p>
+                                                                    <hr>
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <p><b>Titre</b></p>
+                                                                            <p>{{ cours.discipline }}</p>
+                                                                            <p>{{ cours.composant}}</p>
+                                                                            <p>{{ cours.title }}</p>
+                                                                            <p class="text-danger">{{ cours.price }} {{ parametre.devise }}</p>
+                                                                        </div>
+                                                                        <div class="col-md-8">
+                                                                            <p><b>Description</b></p>
+                                                                            <p>{{cours.comment }}</p>
+                                                                            <p><a href="{{ cours.file.url }}">{{ cours.file }}</a></p>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br> 
+                                                           {% endfor %}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="btn btn-default btn-sm" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container -->
+{% endblock %}

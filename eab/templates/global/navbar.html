@@ -1,0 +1,153 @@
+{% load static %}
+<header class="main-header">
+    <!-- Logo -->
+    <a href="{% url 'dashboard' %}" class="logo">
+        {% if parametre.logo %}
+        <img class="img-circle" src="{{ parametre.logo.url }}" width="{{ parametre.width_logo }}" height="{{ parametre.height_logo }}" alt="EAJC">
+        {% else %}
+        <h3><b>EAJC</b></h3>
+        {% endif %}
+    </a>
+    <!-- Header Navbar: style can be found in header.less -->
+    <nav class="navbar navbar-static-top" role="navigation">
+      <!-- Sidebar toggle button-->
+      <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!-- Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success">{{ count }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              {% if count > 1 %}
+              <li class="header">Tu as {{ count }} messages</li>
+              {% else %}
+              <li class="header">Tu as {{ count }} message</li>
+              {% endif %}
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  {% if users %}
+                  {% for user in users %}
+                  <li><!-- start message -->
+                    <a href="{% url 'contact/detmes' user.id %}">
+                      <div class="pull-left">
+                        {% if user.photo %}
+                        <img src="{{ user.photo.url }}" class="img-circle" alt="User Image">
+                        {% else %}
+                        <img class="img-circle" src="{% static 'dist/img/user.png' %}" alt="User Image">
+                        {% endif %}
+                      </div>
+                      <h4>
+                        {{ user.lastname }} {{ user.firstname|truncatewords:1 }}
+                        <small><i class="fa fa-clock-o"></i> {{ user.date|date:"d-m-Y h:m" }}</small>
+                      </h4>
+                      <p><b class="text-success">({{ user.nombre }})</b> {{ user.message|truncatewords:2 }}</p>
+                    </a>
+                  </li><!-- end message -->
+                  {% endfor %}
+                  {% else %}
+                  <li> 
+                    <a href="{% url 'contact/messages' %}">
+                      <i class="fa fa-envelope text-aqua"></i> O message
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </li>
+              <li class="footer"><a href="{% url 'contact/messages' %}"> Voir tous les messages</a></li>
+            </ul>
+          </li>
+          <!-- Notifications: style can be found in dropdown.less -->
+          <li class="dropdown notifications-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning">{{ countanswer }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              {% if countanswer == 0 %}
+              <li class="header">Tu as 0 réponse</li>
+              {% elif countanswer == 1 %}
+              <li class="header">Tu as <b>{{ countanswer }}</b> réponse</li>
+              {% else %}
+              <li class="header">Tu as <b>{{ countanswer }}</b> réponses</li>
+              {% endif %}
+              <li>
+                <!-- inner menu: contains the actual data -->
+                <ul class="menu">
+                  <li>
+                    <a href="{% url 'question/my_questions' %}">
+                      {% if countanswer == 0 %}
+                      <i class="fa fa-users text-aqua"></i> {{ countanswer }} nouvelle réponse
+                      {% else %}
+                      <i class="fa fa-users text-aqua"></i> {{ countanswer }} nouvelle réponses
+                      {% endif %}
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="footer"><a href="{% url 'question/my_questions' %}">Voir toutes les réponses</a></li>
+            </ul>
+          </li>
+          <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                {% if request.user.profile.photo %}
+                <img class="img-circle" width="19" height="19" src="{{ request.user.profile.photo.url }}" alt="...">
+                {% else %}
+                <img class="img-circle" width="19" height="19" src="{% static 'dist/img/user.png' %}" alt="...">
+                {% endif %}
+              <span class="hidden-xs">{{ user.last_name }} {{ user.first_name }}</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                {% if request.user.profile.photo %}
+                    <img class="img-circle" width="60" height="60" src="{{ request.user.profile.photo.url }}" alt="...">
+                {% else %}
+                    <img class="img-circle" width="60" height="60" src="{% static 'dist/img/user.png' %}" alt="...">   
+                {% endif %}
+                <p>
+                  {{ user.last_name }} {{ user.first_name }}
+                  <small>{{user.profile.profession}}</small>
+                </p>
+              </li>
+              {% for group in request.user.groups.all %}
+              {% if group.name == "admin" %}
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="col-xs-6 text-center">
+                  <a href="{% url 'parametre' %}">Paramètre</a>
+                </div>
+                <div class="col-xs-6 text-center">
+                  <a href="{% url 'users/configuration' %}">Configuration</a>
+                </div>
+              </li>
+              {% else %}
+              <!-- Menu Body -->
+              <li class="user-body">
+                <div class="col-xs-12 text-center">
+                  <a href="{% url 'users/configuration' %}"><i class="fa fa-gear"></i> Configuration</a>
+                </div>
+              </li>
+              {% endif %}
+              {% endfor %}
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a href="{% url 'users/profile' %}" class="btn btn-default btn-flat"><i class="fa fa-user"></i> Profil</a>
+                </div>
+                <div class="pull-right">
+                  <a href="{% url 'logout' %}" class="btn btn-default btn-flat"><i class="fa fa-key"></i> Se déconnecter</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>

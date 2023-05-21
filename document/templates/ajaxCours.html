@@ -1,0 +1,61 @@
+{% load static %}
+<h4 class="text-center text-primary" style="font-family: Georgia, serif;"><b>{{ composant.libelle }}</b></h4>
+{% for course in cours %}
+<div class="col-md-4 col-lg-4 col-xs-6">
+    <div class="panel panel-default h-100 shadow">
+        <div class="panel-header bg-default">
+            <h6 class="text-center"><b>{{ course.discipline }} - {{ course.composant }}</b></h6>
+        </div>
+        <div class="panel-body" style="border-radius: 10px;">
+            <p class="text-center">{{ course.title }}</p>
+            <p class="text-center"><small><b>{{ course.niveau }}</b></small></p>
+            {% if course.type == "Payant" %}
+                <p class="text-center"><b class="text-light bg-danger" style="padding:5px;border-radius: 5px;"> {{ course.price }} {{ parametre.devise }}</b></p>
+            {% else %}
+                <p class="text-center"><b class="text-light bg-success" style="padding:5px;border-radius: 5px;"> {{ course.price }} {{ parametre.devise }}</b></p>
+            {% endif %}
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-default btn-xs" href="{% url 'cours/details' course.id %}"><i class="fa fa-eye"></i> Détails</a>
+            {% if request.user.is_authenticated %}
+                {% if course.type == "Payant" %}
+                    <button class="btn btn-default btn-xs addpanier" id="{{ course.id }}" style="background-color: rgb(21, 139, 142); color:white;"><i class="fa fa-shopping-cart"></i> Ajouter au panier</button>
+                {% else %}
+                    <a href="{{ course.file.url }}" class="btn btn-default btn-xs" style="background-color: rgb(184, 191, 45);"><i class="fa fa-upload"></i> Télécharher</a>
+                {% endif %}
+            {% else %}
+                {% if course.type == "Payant" %}
+                <a href="#" data-toggle="modal" data-target="#DocPayantModal" class="btn btn-default btn-xs" style="background-color: rgb(21, 139, 142); color:white;"><i class="fa fa-shopping-cart"></i> Ajouter au panier</a>
+                {% else %}
+                <a href="#" data-toggle="modal" data-target="#DocGratuitModal" class="btn btn-default btn-xs" style="background-color: rgb(184, 191, 45);"><i class="fa fa-upload"></i> Télécharger</a>
+                {% endif %}
+            {% endif %}
+            <span style="float: right;">{{ course.date|date:"d/m/Y" }}</span>
+        </div>
+    </div>
+</div>
+{% endfor%}
+
+<!--Pagination-->
+<div class="row">
+    <div class="col-lg-4 col-lg-offset-4 text-center">
+        <ul class="pagination">
+            {% if cours.has_previous %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ cours.previous_page_number }}"><i class="fa-arrow-circle-left"></i></a>
+                </li>
+            {% endif %}
+    
+            <li class="page-item active">
+                <a class="page-link bg-dark" href="?page={{ cours.number }}">{{ cours.number }}</a>
+            </li>
+    
+            {% if cours.has_next %}
+            <li class="page-item">
+                <a class="page-link text-dark" href="?page={{ cours.next_page_number }}"><i class="fa-arrow-circle-right"></i></a>
+            {% endif %}
+            </li>
+        </ul>
+    </div>
+</div>
+<!--End pagination-->

@@ -1,0 +1,12 @@
+
+{% if type_comp == "Langue" %}
+    <div class="form-group">
+        <label for="comment">Commentaire </label>
+        <input type="range" name="comment" id="comment" class="form-control" min="0" max="100" step="5">
+    </div>
+{% else %}
+    <div class="form-group">
+        <label for="comment">Commentaire </label>
+        <textarea name="comment" id="comment" class="form-control" rows="2"></textarea>
+    </div>
+{% endif %}

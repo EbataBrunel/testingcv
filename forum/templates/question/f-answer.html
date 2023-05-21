@@ -1,0 +1,153 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Réponses {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="row">
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black;">
+                                <a href="{% url 'question/questions' %}" style="text-decoration: none; color: black;"><i class="fa fa-edit"></i> <b>Liste des questions</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black; border-left: 2px solid black">
+                                <a href="{% url 'question/postquestion' %}"  style="text-decoration: none; color: black;"><i class="fa fa-edit"></i> <b>Posez une question</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-right: 2px solid black; border-left: 2px solid black">
+                                <a href="{% url 'question/listforum' %}" style="text-decoration: none"><i class="fa fa-edit"></i> <b class="text-primary">Liste des forums</b></a>
+                            </div>
+                            <div class="col-xs-3 text-center" style="border-left: 2px solid black">
+                                <a href="{% url 'question/my_questions' %}" style="text-decoration: none; color: black;"><i class="fa fa-edit"></i> <b>Mes questions</b></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <!-- row -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box">
+                    <div class="box-header text-info">
+                        <h3 class="box-title text-info"><i class="fa fa-pencil"></i> <b>Liste des réponses</b></h3>
+                    </div>
+                        <div class="box-body"> 
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-1 col-xs-2">
+                                        {% if question.user.profile.photo %}
+                                        <div class="col-lg-5 text-center"><img class="img-circle" width="70px" height="70px" src="{{ question.user.profile.photo.url }}" alt="..." /></div>
+                                        {% else %}
+                                        <div class="col-lg-5 text-center"><img class="iimg-circles" width="70px" src="https://th.bing.com/th?id=OIP.awAiMS1BCAQ2xS2lcdXGlwHaHH&w=255&h=245&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2" alt="..." /></div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-11 col-xs-10">
+                                        <h4><b>{{ question.subject }}</b></h4>
+                                        <p>{{ question.content|safe }}</p>
+                                        {% if question.date.date == date.date %}
+                                        <p>Question posée par <b class="text-primary">{{ question.user.last_name }}</b> à <span class="badge badge-primary">{{ question.date|date:"h:m" }}</span></p>
+                                        {% else %}
+                                        <p>Question posée par <b class="text-primary">{{ question.user.last_name }}</b> le <span class="badge badge-primary">{{ question.date }}</span></p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- The time line -->
+                            <ul class="timeline">
+                                <!-- timeline item -->
+                                {% for answer in answers %}
+                                <li>
+                                    {% if answer.photo %}
+                                    <img class="img-circle" width="40px" height="40px" src="{{ answer.photo.url }}" alt="..." />
+                                    {% else %}
+                                    <img class="img-circle" width="40px" height="40px" src="{% static 'dist/img/user.png' %}" alt="..." />
+                                    {% endif %}
+                                <div class="timeline-item">
+                                    <span class="time">
+                                        <i class="fa fa-clock-o"></i>
+                                        {% if answer.date.date == date.date %}
+                                            {{ answer.date|date:"h:m" }}
+                                        {% else %}
+                                            {{ answer.date|date:"d/m/Y h:m" }}
+                                        {% endif %}
+                                    </span>
+                                    <h2 class="timeline-header"><b>{{ answer.username }}</b></h2>
+                                    <div class="timeline-body">
+                                        <div class="row">
+                                            <div class="col-lg-11 col-xs-10 col-md-11">
+                                                {{ answer.content|safe }}
+                                                <p>
+                                                    {% if answer.date > answer.user.last_login %}
+                                                        {% if answer.user_id != request.user.id %}
+                                                            <span class="badge badge-danger"> Nouveau </span>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </p>
+                                            </div>
+                                            <div class="col-lg-1 col-xs-2 col-md-1">
+                                                
+                                                <!-- liste de membres Modal-->
+                                                <div data-backdrop="True" class="modal fade" id="likeModal{{ question.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+                                                        <div class="modal-content" id="vuelikes{{ question.id }}">
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- End liste de membres modal-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-footer">
+                                        {{ answer.composant }} | <button class="likeanswer" id="{{ answer.id }}" style="border: 0; background-color: white;">{% if answer.status == 0 %} <i class="fa fa-thumbs-o-up"></i> {% else %} <i class="fa fa-thumbs-up"></i> {% endif %} J'aime <b>{{ answer.countlikes }}</b></button> <a class="btn btn-primary btn-circle btn-xs likeanswers" id="{{ answer.id }}" href="#" data-toggle="modal" data-target="#likeModal{{ answer.id }}" style="border-radius: 100px;"><i class="fa fa-eye"></i></a> | Répondu par <b class="text-primary"><a href="{% url 'cv/cv' question.user_id %}">{{ answer.username }}</a></b>
+                                        {% if request.user.is_superuser %}
+                                        <button data-html=true class="btn btn-danger btn-xs pull-right" data-toggle="popover" data-placement="left" data-content="<a href='{% url 'f-delanswer' answer.id %}' class='text-black'>Supprimer</a>">Supprimer</button>
+                                        {% endif %}
+                                    </div>
+                                    <!-- liste de membres Modal-->
+                                    <div class="modal fade" id="likeModal{{ answer.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable" role="document">
+                                            <div class="modal-content" id="vuelikes{{ answer.id }}">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                </li>
+                                {% endfor %}
+                                <!-- END timeline item -->
+                            </ul>
+
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            {{ form.media }}
+                                            <div class="form-group">
+                                                <textarea class="form-control ckeditor" name="content" rows="6" placeholder="tapez votre question ici ..."></textarea>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <button class="btn btn-primary btn-sm"><i class="fa fa-check"></i> Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

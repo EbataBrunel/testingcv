@@ -1,0 +1,66 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $('.question').on('click', function(){
+            var id = $(this).attr("id");
+            $('#question').addClass("text-primary");
+        });
+
+        $('.ourview').on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("ajaxCours/"+id,
+                    {id:id},
+                    function(data){
+                        $('#courseview').html(data); 
+                        /*$("#"+id).addClass("text-success");*/
+                    }
+                );
+
+            }
+        });
+
+        /*===================== Aujouter au panier =============*/
+        $(".addpanier").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("addPanier/"+id,
+                    {id:id},
+                    function(data){
+                        $("#panier").html(data); 
+                    }
+                );
+
+            }
+        });
+
+        // ============ Gestion Contact ==================
+        $('#formContact').submit(function(){
+            $.ajax({
+                url:"{% url 'contact/contact' %}",
+                method : "POST",
+                data:new FormData($('#formContact')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Message envoyé avec succès<br/></b></div><p class='text-success text-center'><i class='fa fa-check-circle' style='font-size:50px'></i></p>"
+                        $('#contenu_message').html(contenu);
+                        $('#formContact')[0].reset();
+                    }
+                    else if (data.status == 1){
+                        contenu="<div class='text-danger text-center'><b>Le message n'a pas été envoyé.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    else{
+                        contenu="<div class='text-warning text-center'><b>Adresse e-mail invalide.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        }); 
+
+    });
+</script>

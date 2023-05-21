@@ -1,0 +1,96 @@
+{% load static %}
+<aside class="main-sidebar bg-black">
+    <!-- sidebar: style can be found in sidebar.less -->
+    <section class="sidebar">
+      <!-- Sidebar user panel -->
+      <div class="user-panel">
+        <div class="pull-left image">
+            {% if request.user.profile.photo %}
+            <img class="img-circle" src="{{ request.user.profile.photo.url }}" alt="...">
+            {% else %}
+            <img class="img-circle" width="60" height="50" src="{% static 'dist/img/user.png' %}" alt="...">
+            {% endif %}
+        </div>
+        <div class="pull-left info">
+          <p>{{ user.last_name }}</p>
+          <a href="{% url 'users/profile' %}"><i class="fa fa-circle text-success"></i> En ligne</a>
+        </div>
+      </div>
+      <!-- /.search form -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+      <ul class="sidebar-menu">
+        <li class="header">MENU PRINCIPALE</li>
+        <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> <span>Tableau de bord</span></a></li>
+        {% for group in request.user.groups.all %}
+        {% if group.name == "admin" %}
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-user"></i>
+            <span>Utilisateurs</span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{% url 'users/users' %}"><i class="fa fa-circle-o"></i> Administrateurs</a></li>
+            <li><a href="{% url 'users/customers' %}"><i class="fa fa-circle-o"></i> Clients</a></li></ul>
+        </li>
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-tags"></i> <span>Gestion</span>
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu">
+              <li><a href="{% url 'annee/annees' %}"><i class="fa fa-circle-o"></i> Années</a></li>
+              <li><a href="{% url 'etablissement/etablissements' %}"><i class="fa fa-circle-o"></i> <span>Etablissemnts</span></a></li>
+              <li><a href="{% url 'formation/formations' %}"><i class="fa fa-circle-o"></i> <span>Formations</span></a></li>
+            </ul>
+        </li>
+        <li><a href="{% url 'parcours/parcours' %}"><i class="fa fa-cubes"></i> Parcours</a></li>
+        <li><a href="{% url 'entreprise/entreprises' %}"><i class="fa fa-cube"></i> <span>Entreprises</span></a></li>
+        <li><a href="{% url 'experience/experiences' %}"><i class="fa fa-list"></i> <span>Experiences</span></a></li>
+        <li><a href="{% url 'competence/competences' %}"><i class="fa fa-edit"></i> <span>Competences</span></a></li>
+        <li><a href="{% url 'cv/recap' %}"><i class="fa fa-file"></i> <span>Curriculum Vitae (CV)</span></a></li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-tasks"></i> <span>Thèmes</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{% url 'discipline/disciplines' %}"><i class="fa fa-circle-o"></i> Disciplines</a></li>
+            <li><a href="{% url 'composant/composants' %}"><i class="fa fa-circle-o"></i> Composants</a></li>
+          </ul>
+        </li>
+        <li class="treeview">
+          <a href="#">
+            <i class="fa fa-book"></i> <span>Documents</span>
+            <i class="fa fa-angle-left pull-right"></i>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{% url 'cours/mescours' %}"><i class="fa fa-circle-o"></i> Mes documents</a></li>
+            <li><a href="{% url 'cours/listcours' %}"><i class="fa fa-circle-o"></i> Liste des documents</a></li>
+            <li><a href="{% url 'cours/c-encours' %}"><i class="fa fa-circle-o"></i> Documents en cours</a></li>
+            <li><a href="{% url 'cours/courspub' %}"><i class="fa fa-circle-o"></i> Documents publiés</a></li>
+            <li><a href="{% url 'cours/coursnonpub' %}"><i class="fa fa-circle-o"></i> Documents non rétenus</a></li>
+          </ul>
+        </li>
+        <li><a href="{% url 'question/questions' %}"><i class="fa fa-folder"></i> <span>Forum</span></a></li>
+        <li><a href="{% url 'annonce/annonces' %}"><i class="fa fa-info-circle"></i> <span>Annonces</span></a></li>
+        <li><a href="{% url 'statistique' %}"><i class="fa fa-pie-chart"></i> <span>Statistiques</span></a></li>
+        <li><a href="{% url 'home' %}"><i class="fa fa-sitemap"></i> <span>Voir le site</span></a></li>
+        <li><a href=""><i class="fa fa-calendar"></i> <span>{{ date|date:"d-m-Y" }}</span></a></li>
+        {% else %}
+        <li><a href="{% url 'etablissement/etablissements' %}"><i class="fa fa-bank"></i> <span>Etablissemnts</span></a></li>
+        <li><a href="{% url 'formation/formations' %}"><i class="fa fa-graduation-cap"></i> <span>Formations</span></a></li>
+        <li><a href="{% url 'parcours/parcours' %}"><i class="fa fa-cubes"></i> Parcours</a></li>
+        <li><a href="{% url 'entreprise/entreprises' %}"><i class="fa fa-cube"></i> <span>Entreprises</span></a></li>
+        <li><a href="{% url 'experience/experiences' %}"><i class="fa fa-list"></i> <span>Experiences</span></a></li>
+        <li><a href="{% url 'competence/competences' %}"><i class="fa fa-edit"></i> <span>Competences</span></a></li>
+        <li><a href="{% url 'cv/recap' %}"><i class="fa fa-file"></i> <span>Curriculum Vitae (CV)</span></a></li>
+        <li><a href="{% url 'cours/mescours' %}"><i class="fa fa-book"></i> Mes documents</a></li>
+        <li><a href="{% url 'question/questions' %}"><i class="fa fa-folder"></i> <span>Forum</span></a></li>
+        <li><a href="{% url 'home' %}"><i class="fa fa-sitemap"></i> <span>Voir le site</span></a></li>
+        <li><a href=""><i class="fa fa-calendar"></i> <span>{{ date|date:"d-m-Y" }}</span></a></li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </section>
+    <!-- /.sidebar -->
+  </aside>

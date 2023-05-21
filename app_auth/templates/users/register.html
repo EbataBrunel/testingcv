@@ -1,0 +1,72 @@
+{% extends 'global/base0.html' %}
+{% block title %} EAJC | Connexion {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Content-->
+<div class="content-wrapper bg-gray">
+    <div class="container">
+        <section class="content">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 login-box-body">
+                    <h4 align="center" class="mt-4"><i class="fa fa-user"></i><b> Créer un compte</b></h4>
+                    <hr>
+                                <h3 class="text-center">Remplissez le formulaire ci-dessous pour créer votre compte à {{ parametre.appname }}.</h3>
+                                <p>Vous devez disposer d'une adresse email valide qu'il vous faudra consulter pour finaliser l'activation de votre compte pour se connecter.</p>
+                                <div class="row">
+                                    <div class="col-md-6" style="border:2px solid red; padding: 5px; border-radius: 10px;">
+                                        Retenez bien votre <b>Nom utilisateur</b>, vous allez l'utiliser plus tard pour se connecter sur votre compte.
+                                    </div>
+                                </div>
+                                <hr>
+                    {% if messages %}
+                                {% for message in messages %}
+                                    <div class="alert alert-danger text-center"><strong>{{ message }}</strong></div> 
+                                {% endfor %}
+                            {% endif %}
+                            <form method="POST" action="" class="user">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span class="lbl">{{ form.username.label }} *</span><br>
+                                            {{ form.username }}
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="lbl">{{ form.last_name.label }} *</span><br>
+                                            {{ form.last_name }}
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="lbl">{{ form.first_name.label }} *</span><br>
+                                            {{ form.first_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <span class="lbl">{{ form.email.label }} *</span><br>
+                                            {{ form.email }}
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="lbl">{{ form.password1.label }} *</span><br>
+                                            {{ form.password1 }}
+                                        </div>
+                                        <div class="form-group">
+                                            <span class="lbl">{{ form.password2.label }} *</span><br>
+                                            {{ form.password2 }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-check"></i><span class="lbl"> Créer un compte</span></button>
+                                </div>
+                           </form>
+                            <hr>
+                            <h5 class="text-center text-success" style="float: right;"><a href="{% url 'connection/connexion' %}" style="text-decoration: none;" class="btn btn-default btn-sm"><i class="fa fa-key"></i>Se connecter</a></h5>
+                            <br>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+        

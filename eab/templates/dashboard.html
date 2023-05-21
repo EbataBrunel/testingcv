@@ -1,0 +1,324 @@
+{% extends 'global/base.html' %}
+{% block title %} EAJC | CV{% endblock %}
+{% block content %}
+{% load static %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        <i class="fa fa-dashboard"></i> Tableau de bord
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-home"></i> Accueil</a></li>
+        <li class="active">Tableau de bord</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <!-- Small boxes (Stat box) -->
+      {% for group in request.user.groups.all %}
+      {% if group.name == "admin" %}
+      <div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-gray">
+            <div class="inner">
+              <h3>{{ countachats }}</h3>
+              {% if countachats > 0 %}
+              <p>Achats</p>
+              {% else %}
+              <p>Achat</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="ion ion-bag"></i>
+            </div>
+            <a href="{% url 'commande/commandes' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-gray">
+            <div class="inner">
+              <h3>{{ countcustomers }}</h3>
+              <p>Clients</p>
+            </div>
+            <div class="icon text-black">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="{% url 'users/customers' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-gray">
+            <div class="inner">
+              <h3>{{ countusers }}</h3>
+              <p>Admininistrateurs</p>
+            </div>
+            <div class="icon text-black">
+              <i class="ion ion-person-add"></i>
+            </div>
+            <a href="{% url 'users/users' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              <h3>{{ nombre_contact }}</h3>
+              {% if nombre_contact > 0 %}
+              <p>Contacts</p>
+              {% else %}
+              <p>Contact</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-envelope"></i>
+            </div>
+            <a href="{% url 'contact/contacts' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              <h3>{{ countcourstotal }}</h3>
+              {% if countcourstotal > 0 %}
+              <p>Documents</p>
+              {% else %}
+              <p>Document</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-book"></i>
+            </div>
+            <a href="{% url 'cours/listcours' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              {% if countcoursencours > 0 %}
+              <h3 class="text-warning">{{ countcoursencours }}</h3>
+              <p>Documents en cours de traitement</p>
+              {% else %}
+              <h3>{{ countcoursencours }}</h3>
+              <p>Document en cours de traitement</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-book"></i>
+            </div>
+            <a href="{% url 'cours/c-encours' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              <h3>{{ countcourspublie }}</h3>
+              {% if countcourspublie > 0 %}
+              <p>Documents publiés</p>
+              {% else %}
+              <p>Document publié</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-book"></i>
+            </div>
+            <a href="{% url 'cours/courspub' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              {% if countcoursnonpublie > 0 %}
+              <h3 class="text-danger">{{ countcoursnonpublie }}</h3>
+              <p>Documents non rétenus</p>
+              {% else %}
+              <h3>{{ countcoursnonpublie }}</h3>
+              <p>Document non rétenu</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-book"></i>
+            </div>
+            <a href="{% url 'cours/coursnonpub' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              <h3>{{ countquestion }}</h3>
+              {% if countquestion > 0 %}
+              <p>Nouvelles questions</p>
+              {% else %}
+              <p>Nouvelle question</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-edit"></i>
+            </div>
+            <a href="{% url 'question/questions' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              <h3>{{ countnotif }}</h3>
+              {% if countnotif > 0 %}
+              <p>Nouvelles notifications</p>
+              {% else %}
+              <p>Nouvelle notification</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-bell"></i>
+            </div>
+            <a href="{% url 'cours/mescours' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-default">
+            <div class="inner bg-gray">
+              <h3>{{ countachat }}</h3>
+              {% if countachat > 0 %}
+              <p>Documents vendus</p>
+              {% else %}
+              <p>Document vendu</p>
+              {% endif %}
+            </div>
+            <div class="icon text-black">
+              <i class="fa fa-money"></i>
+            </div>
+            <a href="{% url 'commande/my-docpur' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div><!-- ./col -->
+
+      </div><!-- /.row -->
+      {% else %}
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="text-center" style="font-family: 'Times New Roman', Times, serif;">Bienvenu à {{ parametre.appname }}
+            {% if request.user.profile %}
+                {% if request.user.profile.gender == "Masculin" %}
+                Monsieur
+                {% else %}
+                Madame
+                {% endif %}
+            {% endif %}
+            <b>{{ request.user.last_name }}</b>
+          </h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8 col-xs-12">
+          <div class="row">
+            <div class="col-lg-6 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-default">
+                <div class="inner bg-gray">
+                  <h3>{{ countquestion }}</h3>
+                  {% if countquestion > 0 %}
+                  <p>Nouvelles questions</p>
+                  {% else %}
+                  <p>Nouvelle question</p>
+                  {% endif %}
+                </div>
+                <div class="icon text-black">
+                  <i class="fa fa-edit"></i>
+                </div>
+                <a href="{% url 'question/questions' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+    
+            <div class="col-lg-6 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-default">
+                <div class="inner bg-gray">
+                  <h3>{{ countnotif }}</h3>
+                  {% if countnotif > 0 %}
+                  <p>Nouvelles notifications</p>
+                  {% else %}
+                  <p>Nouvelle notification</p>
+                  {% endif %}
+                </div>
+                <div class="icon text-black">
+                  <i class="fa fa-bell"></i>
+                </div>
+                <a href="{% url 'cours/mescours' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+    
+            <div class="col-lg-6 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-default">
+                <div class="inner bg-gray">
+                  <h3>{{ countachat }}</h3>
+                  {% if countachat > 0 %}
+                  <p>Documents vendus</p>
+                  {% else %}
+                  <p>Document vendu</p>
+                  {% endif %}
+                </div>
+                <div class="icon text-black">
+                  <i class="fa fa-money"></i>
+                </div>
+                <a href="{% url 'commande/my-docpur' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+            <div class="col-lg-6 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-default">
+                <div class="inner bg-gray">
+                  <h3>{{ countcommande }}</h3>
+                  {% if countcommande > 0 %}
+                  <p>Documents achetés</p>
+                  {% else %}
+                  <p>Document acheté</p>
+                  {% endif %}
+                </div>
+                <div class="icon text-black">
+                  <i class="fa fa-money"></i>
+                </div>
+                <a href="{% url 'commande/doc-pur' %}" class="small-box-footer bg-black">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div><!-- ./col -->
+          </div>
+        </div>
+        <div class="col-md-4 col-xs-12">
+          <div class="box box-solid box-default">
+            <div class="bo box-header">
+              <h4 class="text-danger"><i class="fa fa-info-circle"></i><b> Dernière annonce </b></h4>
+            </div>
+            <div class="box-body">
+              <h4><b>{{annonce.title}}</b></h4>
+              <p>{{annonce.content|safe}}</p>
+              <h4><b class="text-primary"><i class="fa fa-university"></i> {{annonce.company}}</b></h4>
+              <p><small class="pull-right">Publiez le <b>{{annonce.date|date:"d/m/Y"}}</b></small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+      <!-- Main row -->
+
+    </section><!-- /.content -->
+  </div><!-- /.content-wrapper -->
+{% endblock %}

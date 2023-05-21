@@ -1,0 +1,105 @@
+
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | publier un cours {% endblock %}
+{% block content %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            <i class="fa fa-book"></i> Documents
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+            <li><a href="{% url 'cours/mescours' %}"> Mes documents</a></li>
+            <li class="active">Ajout</li>
+            
+          </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-xs-12">
+                  <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title"><i class="fa fa-plus"></i> <b>Publier un document</b> </h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                            <form method="post" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div  class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="discipline">Discipline *</label>
+                                            <select name="discipline" id="discipline" class="form-control" required>
+                                                <option value="">-- Selectionnez --</option>
+                                                {% for discipline in disciplines %}
+                                                <option value="{{ discipline.id }}">{{ discipline.libelle }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div id="Componentview">
+                                            <div class="form-group">
+                                                <label for="composant">Composant *</label>
+                                                <select name="composant" id="composant" class="form-control" required>
+                                                    <option value="">-- Selectionnez --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="niveau">Niveau *</label>
+                                            <select name="niveau" id="niveau" class="form-control" required>
+                                                <option value="">-- Selectionnez --</option>
+                                                <option value="Bac + 1">Bac + 1</option>
+                                                <option value="Bac + 2">Bac + 2</option>
+                                                <option value="Bac + 3">Bac + 3</option>
+                                                <option value="Bac + 4">Bac + 4</option>
+                                                <option value="Bac + 5">Bac + 5</option>
+                                                <option value="Bac + 6">Bac + 6</option>
+                                                <option value="Bac + 7">Bac + 7</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="file">Fichier *</label>
+                                            <input type="file" name="file" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="title">Titre *</label>
+                                            <input type="text" name="title" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="type">Type de cours *</label>
+                                            <select name="type" id="type" class="form-control" required>
+                                                <option value="">-- Selectionnez --</option>
+                                                <option value="Graduit">Gratuit</option>
+                                                <option value="Payant">Payant</option>
+                                            </select>
+                                        </div>
+                                        <div id="priceview">
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="comment">Commentaire </label>
+                                            <textarea name="comment" rows="5" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="{% url 'cours/mescours' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                        <button class="btn btn-info btn-xs"><i class="fa fa-check"></i> Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}

@@ -1,0 +1,567 @@
+<script>
+    $(document).ready(function(){
+        // ============ Gestion année ==================
+        $('#formAnnee').submit(function(){
+            $.ajax({
+                url:"{% url 'annee/add_annee' %}",
+                method : "POST",
+                data:new FormData($('#formAnnee')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Année enregistrée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formAnnee')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette année existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateAnnee').submit(function(){
+            $.ajax({
+                url:"{% url 'annee/edit_an' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateAnnee')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Année Modifiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette année existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        }); 
+
+        // ============ Gestion établissement ==================
+        $('#formEtab').submit(function(){
+            $.ajax({
+                url:"{% url 'etablissement/add_etab' %}",
+                method : "POST",
+                data:new FormData($('#formEtab')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Etablissement enregistré avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formEtab')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cet établissement existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        }); 
+
+        $('#formUpdateEtab').submit(function(){
+            $.ajax({
+                url:"{% url 'etablissement/edit_eta' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateEtab')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Etablissement modifié avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cet établissement existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        }); 
+
+        // ============ Gestion formation ==================
+        $('#formForm').submit(function(){
+            $.ajax({
+                url:"{% url 'formation/add_form' %}",
+                method : "POST",
+                data:new FormData($('#formForm')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Formation enregistrée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formForm')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette formation existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Insertion a chouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateForm').submit(function(){
+            $.ajax({
+                url:"{% url 'formation/edit_for' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateForm')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Formation Modifiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette formation existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+
+        // ============ Gestion Entreprise ==================
+        $('#formEnt').submit(function(){
+            $.ajax({
+                url:"{% url 'entreprise/add_ent' %}",
+                method : "POST",
+                data:new FormData($('#formEnt')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Entreprise enregistrée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formEnt')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette entreprise existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Insertion a chouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateEnt').submit(function(){
+            $.ajax({
+                url:"{% url 'entreprise/edit_en' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateEnt')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Entreprise Modifiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette entreprise existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+         // ============ Gestion Discipline ==================
+         $('#formDisc').submit(function(){
+            $.ajax({
+                url:"{% url 'discipline/add_disc' %}",
+                method : "POST",
+                data:new FormData($('#formDisc')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Discipline enregistrée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formDisc')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette discipline existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Insertion a chouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateDisc').submit(function(){
+            $.ajax({
+                url:"{% url 'discipline/edit_dis' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateDisc')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Discipline Modifiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette discipline existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+
+        // ============ Gestion Composant ==================
+        $('#formCom').submit(function(){
+            $.ajax({
+                url:"{% url 'composant/add_cmp' %}",
+                method : "POST",
+                data:new FormData($('#formCom')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Composant enregistré avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formCom')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Ce composant existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Insertion a chouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateCom').submit(function(){
+            $.ajax({
+                url:"{% url 'composant/edit_com' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateCom')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Composant modifié avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Ce composant existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+
+        // ============ Gestion Competence ==================
+        $('#formComp').submit(function(){
+            $.ajax({
+                url:"{% url 'competence/add_comp' %}",
+                method : "POST",
+                data:new FormData($('#formComp')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Competence enregistrée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formComp')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Ce competence existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Insertion a chouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateComp').submit(function(){
+            $.ajax({
+                url:"{% url 'competence/edit_cmp' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateComp')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Compétence modifiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette compétence existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+
+        // ============ Gestion Expérience ==================
+        $('#formExp').submit(function(){
+            $.ajax({
+                url:"{% url 'experience/add_exp' %}",
+                method : "POST",
+                data:new FormData($('#formExp')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Expérience enregistrée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formExp')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette expérience existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Insertion a chouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 2){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>La dete du début doit être inférieure à celle de fin.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateExp').submit(function(){
+            $.ajax({
+                url:"{% url 'experience/edit_ex' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateExp')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Expérience modifiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette expérience existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 2){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>La dete du début doit être inférieure à celle de fin.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+
+        // ============ Gestion Competence ==================
+        $('#formPar').submit(function(){
+            $.ajax({
+                url:"{% url 'parcours/add_parcours' %}",
+                method : "POST",
+                data:new FormData($('#formPar')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Parcours enregistré avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formPar')[0].reset();
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Ce parcours existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Insertion a chouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdatePar').submit(function(){
+            $.ajax({
+                url:"{% url 'parcours/edit_par' %}",
+                method : "POST",
+                data:new FormData($('#formUpdatePar')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Parcours modifié avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Ce parcours existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+
+        // ============ Contact ==================
+        $('#formContact').submit(function(){
+            $.ajax({
+                url:"{% url 'contact/contuser' %}",
+                method : "POST",
+                data:new FormData($('#formContact')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Message envoyé avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formContact')[0].reset();
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Votre message n'a pas été envoyé.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });
+
+
+        // ============ Gestion annonce ==================
+        $('#formAnnonce').submit(function(){
+            $.ajax({
+                url:"{% url 'annonce/add-annonce' %}",
+                method : "POST",
+                data:new FormData($('#formAnnonce')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Annonce publiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                        $('#formAnnonce')[0].reset();
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>La publication a échouée.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 2){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Problème de formulaire.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        });  
+
+        $('#formUpdateAnnonce').submit(function(){
+            $.ajax({
+                url:"{% url 'annonce/edit-ann' %}",
+                method : "POST",
+                data:new FormData($('#formUpdateAnnonce')[0]),
+                contentType : false,
+                processData : false,
+                success : function(data){
+                    $('#message').modal('show');
+                    if (data.status == "Save"){
+                        contenu="<div  class='text-success text-center'><b>Annonce Modifiée avec succès<br/><i class='fa fa-check-circle' style='font-size:50px'></i></b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 0){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Cette annonce existe déjà.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                    if (data.status == 1){
+                        contenu="<div class='text-warning text-center'><i class='fa fa-warning'></i> <b>Indentifiant inexistant.</b></div>"
+                        $('#contenu_message').html(contenu);
+                    }
+                }
+            });
+            return false;
+        }); 
+    });
+</script>

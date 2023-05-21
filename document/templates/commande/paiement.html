@@ -1,0 +1,58 @@
+{% extends 'global/base0.html' %}
+{% block title %} {{ parametre.appname }} | Panier {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Content-->
+<div class="content-wrapper">
+    <div class="container">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+              <i class="fa fa-book"></i> Documents
+            </h1>
+            <ol class="breadcrumb">
+              <li><a href="{% url 'home' %}"><i class="fa fa-home"></i>Accueil</a></li>
+              <li><a href="{% url 'cours/cours' %}">Documents</a></li>
+              <li><a href="{% url 'commande/panier' %}">Panier</a></li>
+              <li class="active">Paiement</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h4 align="center"><i class="fa fa-money"></i> <b>Paiement</b></h4>
+                </div>
+                <div class="box-body">
+                    <div class="col-lg-12 text-center">
+                        <table class="table table-striped">
+                            <tr>
+                                <th class="text-center">Somme totale</th>
+                                <th class="text-center"><b style="float:left" class="text-success">{{ prixtotal }} {{ parametre.devise }}</th>
+                            </tr>
+                        </table>
+                        <hr>
+                        <table class="table table-striped">
+                            <tr>
+                                <th class="text-center">Moyen de paiement</th>
+                                <th class="text-center"><b style="float:left" class="text-success">
+                                    <div class="text-center"><img class="img-fluid" src="{% static 'dist/img/paypal.png' %}" width="60" height="50" alt="..." /></div>
+                                </th>
+                            </tr>
+                        </table>
+                        <p>Si vous validez l'achat, vous allez être dirigé(e) sur Paypal pour pouvoir finaliser votre paiement</p>
+                        <hr>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="{% url 'commande/panier' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                <a href="{% url 'commande/validecmd' %}" class="btn btn-primary btn-xs"><i class="fa fa-credit-card"></i> Valider</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Call to Action-->
+        </section>
+    </div>
+</div>
+{% endblock %}
+        

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %} EAJC | Détails du parcours {% endblock %}
+{% block content %}
+{% load static %}
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <small><a href="{% url 'dashboard' %}" style="color:black">Tableau de bord</a> < <a href="{% url 'parcours/parcours' %}" style="color:black">Parcours</a> < Détails</a> </small>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4 border-bottom-{{ parametre.theme }}">
+                        <div class="card-header py-3">
+                            <h4 class="m-0 font-weight-bold text-primary"><i class="fa fa-user"></i> Détails du parcours de <b>{{ annee }} - {{ annee1 }}</b> | {{ etablissement }}
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-2" align="right">
+                                <a href="{% url 'parcours/add_parcours' %}" class="btn btn-{{ parametre.theme }} btn-sm"><i class="fa fa-plus"></i> Ajouter un parcours</a>
+                            </div>
+
+                            
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr class="bg-{{ parametre.theme }} text-white">
+                                            <th>Id</th>
+                                            <th>Matières</th>
+                                            <th>Visibilité</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for parcour in parcours %}
+                                        <tr>
+                                            <td>{{ parcour.id }}</td>
+                                            {% if parcour.statusan == "Non" %}
+                                            <td>{{ parcour.matiere }}</td>
+                                            {% else %}
+                                            <td><b>Année en cours ...</b></td>
+                                            {% endif %}
+                                            <td>
+                                                <a href="{% url 'parcours/statmat' parcour.id %}">
+                                                {% if parcour.status %}
+                                                    <span class="btn btn-success btn-circle btn-sm text-light"><i class="fa fa-check"></i></span>
+                                                {% else %}
+                                                    <span title="Publier" class="btn btn-danger btn-circle btn-sm text-light">X</span>
+                                                {% endif %}
+                                                </a>
+                                            </td>
+                                            <td>
+                                                
+                                                <!-- Logout Modal-->
+                                                <div class="modal fade" id="contactModal{{ parcour.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                    <div class="modal-dialog" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-danger" style="color:white;">
+                                                                <h5 class="modal-title" id="exampleModalLabel"><span align="center">Suppression</span></h5>
+                                                                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                    <span aria-hidden="true">×</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">Etes-vous certain de vouloir supprimer le parcours de {{ parcour.annee }} ?</div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-secondary" type="button" data-dismiss="modal">Annuler</button>
+                                                                <a class="btn btn-danger" href="{% url 'parcours/del_parcours' parcour.id %}">Supprimer</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <a href="{% url 'parcours/parcours' %}" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-circle-left"></i> Retour</a>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+{% endblock %}

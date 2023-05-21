@@ -1,0 +1,59 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Détails de contacts {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h6 class="box-title text-info"><a href="{% url 'contact/contacts' %}"><i class="fa fa-arrow-left"></i></a> Liste des messages de l'adresse <b>{{ email }}</b></h6>
+                    </div>
+                    <div class="box-body">
+                            {% regroup listeContact by datecontact as datecontact_list %}
+                            <ul>
+                            {% for datecontact in datecontact_list %}
+                                <li>
+                                    <h5 class="text-primary">{{ datecontact.grouper }}</h5>
+                                    <ul>
+                                        {% for contact in datecontact.list %}
+                                          <li><b>{{ contact.name }}</b> - sujet : {{ contact.subject }}
+                                          </li>
+                                          <span>{{ contact.message|safe|truncatewords:10 }}</span>
+                                          <p>
+                                              <a class="text-danger" href="#" data-toggle="modal" data-target="#contactModal{{ contact.id }}"><i class="fa fa-arrow-circle-right"></i> (Supprimer)</a>
+                                                <!-- Delete Modal-->
+                                                <div class="modal fade" id="contactModal{{ contact.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                    <div class="modal-dialog modal-sm" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-red">
+                                                                <h5 class="modal-title" id="exampleModalLabel"><span align="center"><i class="fa fa-trash"></i> Suppression</span></h5>
+                                                            </div>
+                                                            <div class="modal-body">Voulez-vous supprimer le message de {{ contact.name }} ?</div>
+                                                            <div class="modal-footer">
+                                                                <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Annuler</button>
+                                                                <a class="btn btn-danger btn-xs" href="{% url 'contact/del_contact' contact.id %}"><i class="fa fa-trash"></i> Supprimer</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                          </p>
+                                        {% endfor %}
+                                    </ul>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{% url 'contact/contacts' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

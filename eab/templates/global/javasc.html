@@ -1,0 +1,373 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+        hideContent();
+        hideComponentview();
+        hideYearview();
+        
+        $('#type_exp').on('change', function(){
+            var type_exp = $(this).val();
+            if(type_exp){
+              $.get("ajax/"+type_exp,
+              {type_exp:type_exp},
+                function(data){
+                  $('#contenu').html(data);
+                  $('#contenu').show();  
+                }
+              );
+            }else{
+                $('#contenu').hide();
+            }
+        });
+
+        $('#type_exp').on('change', function(){
+            var type_exp = $(this).val();
+            if(type_exp){
+
+              $.get("ajax/"+type_exp,
+              {type_exp:type_exp},
+                function(data){
+                  $('#contenu2').html(data);
+                }
+              );
+            }
+        });
+
+        $('#type_comp').on('change', function(){
+            var type_comp = $(this).val();
+            if(type_comp){
+        
+              $.get("ajaxcomp/"+type_comp,
+              {type_comp:type_comp},
+                function(data){
+                  $('#comp').html(data);
+                }
+              );
+            }
+        });
+
+
+        $('#discipline').on('change', function(){
+            var discipline = $(this).val();
+            if(discipline){
+
+              $.get("ajaxCompDisc/"+discipline,
+              {discipline:discipline},
+                function(data){
+                  $('#composant').html(data);
+                  $('#Componentview').show();  
+                }
+              );
+
+            }else{
+                $('#Componentview').hide();
+            }
+        });
+
+        $('#annee').on('change', function(){
+            var annee = $(this).val();
+            if(annee){
+                $.get("ajaxAnnee/"+annee,
+                    {annee:annee},
+                    function(data){
+                        $('#annee1').html(data); 
+                        $('#yearview').show();
+                    }
+                );
+
+            }else{
+                $('#yearview').hide();  
+            }
+        });
+
+        $('#annee').on('change', function(){
+            var annee = $(this).val();
+            if(annee){
+                $.get("ajaxAnnee/"+annee,
+                    {annee:annee},
+                    function(data){
+                        $('#annee2').html(data); 
+                    }
+                );
+            }
+        });
+
+        $('#type').on('change', function(){
+            var type = $(this).val();
+            if(type){
+                $.get("ajaxType/"+type,
+                    {type:type},
+                    function(data){
+                        $('#priceview').html(data); 
+                    }
+                );
+
+            }
+        });
+
+        /* ========================== */
+        $('.hovercomp').popover({
+             title:fetchData,
+             html:true,
+             placement:'left'
+         });
+
+         function fetchData(){
+             var fetch_data='';
+             var id = $(this).attr("id");
+             $.ajax({
+                 url:"fetchcomp/"+id,
+                 method:"GET",
+                 async:false,
+                 data:{id:id},
+                 success:function(data){
+                     fetch_data=data;
+                 }
+
+             });
+             return fetch_data;
+         }
+
+         /* ========================== */
+        $('.hoverpar').popover({
+             title:retrieveData,
+             html:true,
+             placement:'left'
+         });
+
+         function retrieveData(){
+             var retrieve_data='';
+             var id = $(this).attr("id");
+             $.ajax({
+                 url:"fetchpar/"+id,
+                 method:"GET",
+                 async:false,
+                 data:{id:id},
+                 success:function(data){
+                    retrieve_data=data;
+                 }
+
+             });
+             return retrieve_data;
+         }
+
+         /* ========================== */
+        $('.hoverdoc').popover({
+             title:retrieveData,
+             html:true,
+             placement:'left'
+         });
+
+         function retrieveData(){
+             var retrieve_data='';
+             var id = $(this).attr("id");
+             $.ajax({
+                 url:"fetchdoc/"+id,
+                 method:"GET",
+                 async:false,
+                 data:{id:id},
+                 success:function(data){
+                    retrieve_data=data;
+                 }
+
+             });
+             return retrieve_data;
+         }
+
+        /* ========================== */
+        $('.hoverdoccmp').popover({
+             title:retrieveData,
+             html:true,
+             placement:'left'
+         });
+
+         function retrieveData(){
+             var retrieve_data='';
+             var id = $(this).attr("id");
+             $.ajax({
+                 url:"fetchdoccmp/"+id,
+                 method:"GET",
+                 async:false,
+                 data:{id:id},
+                 success:function(data){
+                    retrieve_data=data;
+                 }
+
+             });
+             return retrieve_data;
+         }
+
+        /*===================== Statut de competence =============*/
+        $(".stcomp").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("statcomp/"+id,
+                    {id:id},
+                    function(data){
+                        $("#"+id).html(data); 
+                    }
+                );
+
+            }
+        });
+
+        /*===================== Statut de l'expérience =============*/
+        $(".stexp").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("statexp/"+id,
+                    {id:id},
+                    function(data){
+                        $("#"+id).html(data); 
+                    }
+                );
+
+            }
+        });
+
+        /*===================== Statut de parcours =============*/
+        $(".stpar").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("statpar/"+id,
+                    {id:id},
+                    function(data){
+                        $("#"+id).html(data); 
+                    }
+                );
+
+            }
+        });
+
+        /*===================== status like de questions =============*/
+        $(".like").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("ajaxlike/"+id,
+                    {id:id},
+                    function(data){
+                        $("#"+id).html(data); 
+                    }
+                );
+
+            }
+        });
+
+        /*===================== status like de questions =============*/
+        $(".likes").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("ajaxlikes/"+id,
+                    {id:id},
+                    function(data){
+                        $("#vuelikes"+id).html(data); 
+                    }
+                );
+
+            }
+        });
+
+         /*===================== status like de answer =============*/
+         $(".likeanswer").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("ajaxlike/"+id,
+                    {id:id},
+                    function(data){
+                        $("#"+id).html(data); 
+                    }
+                );
+
+            }
+        });
+
+        /*===================== status like de answer =============*/
+        $(".likeanswers").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("ajaxlikes/"+id,
+                    {id:id},
+                    function(data){
+                        $("#vuelikes"+id).html(data);  
+                    }
+                );
+
+            }
+        });
+
+        /*======================== Membre prioritaire ================= */
+        $(".priority").on('click', function(){
+            var id = $(this).attr("id");
+            if(id){
+                $.get("priority/"+id,
+                    {id:id},
+                    function(data){
+                        if (data.status == 1){
+                            contenu="<button class='btn btn-success btn-xs'><i class='fa fa-check'></i></a>"
+                            $("#"+id).html(contenu);
+                        }else{
+                            contenu="<button class='btn btn-danger btn-xs text-light'><i class='fa fa-remove'></i></button>"
+                            $("#"+id).html(contenu);
+                        } 
+                    }
+                );
+
+            }
+        });
+
+        $('#status').on('change', function(){
+            var status = $(this).val();
+            
+            if(status){
+                $.get("status/"+status,
+                    {status:status},
+                    function(data){
+                        if (data.status == "Non"){
+                            contenu="<label for='status'>Année en cours </label> <select name='status' id='status' required><option value='Non'>Non</option><option value='Oui'>Oui</option></select>"
+                            $('#vueStatus').html(contenu); 
+                            $('#vueMatiere').show();
+                        }else{
+                            $('#vueMatiere').hide();
+                        }
+                            
+                    }
+                );
+            }
+        });
+
+        /* ========================== */
+        $('.delquestion').popover({
+             title:dataQuestion,
+             html:true,
+             placement:'left',
+             tabindex:0
+         });
+
+         function dataQuestion(){
+             var retrieve_data='';
+             var id = $(this).attr("id");
+             $.ajax({
+                 url:"fetchq/"+id,
+                 method:"GET",
+                 async:false,
+                 data:{id:id},
+                 success:function(data){
+                    retrieve_data=data;
+                 }
+
+             });
+             return retrieve_data;
+         }
+
+        function hideContent(){
+            $('#contenu').hide();
+        }
+        
+        function hideComponentview(){
+            $('#Componentview').hide();
+        }
+
+        function hideYearview(){
+            $('#yearview').hide();
+        }
+    });
+</script>

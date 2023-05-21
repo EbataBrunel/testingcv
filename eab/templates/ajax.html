@@ -1,0 +1,27 @@
+
+{% if status %}
+        <div class="form-group">
+            <label for="posteoccupe">Poste occupé </label>
+            <input type="text" name="posteoccupe" id="posteoccupe" class="form-control" required> 
+        </div>
+        <div class="form-group">
+            <label for="projet_mission">Projet/Mission effectué(e) </label>
+            <select name="projet_mission" id="projet_mission" class="form-control" required>
+                <option value="Projet">Projet</option>
+                <option value="Mission">Mission</option>
+            </select> 
+        </div>
+        <div class="form-group">
+            <label for="title">Titre</label>
+            <input type="title" name="title" id="titre" class="form-control" required> 
+        </div>
+{% else %}
+        <div class="form-group">
+            <label for="projet">Projet effectué</label>
+            <input type="text" name="projet" id="projet" class="form-control" required> 
+        </div>
+        <div class="form-group">
+            <label for="tache">Tâche </label>
+            <input type="text" name="tache" id="tache" class="form-control" required> 
+        </div>
+{% endif %}

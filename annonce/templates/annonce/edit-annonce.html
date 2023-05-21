@@ -1,0 +1,74 @@
+
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | publier une annonce {% endblock %}
+{% block content %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            <i class="fa fa-info-circle"></i> Annonces
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+            <li><a href="{% url 'cours/mescours' %}"> Annonces</a></li>
+            <li class="active">Modification</li>
+          </ol>
+        </section>
+        <section class="content">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                  <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title"><i class="fa fa-plus"></i> <b>Modification d'une annonce</b> </h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                            <form method="post" action="" id="formUpdateAnnonce">
+                                {% csrf_token %}
+                                {{ form.media }}
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type="text" name="id" value="{{ annonce.id }}" hidden="True">
+                                        <div class="form-group">
+                                            <label for="title">Titre *</label>
+                                           <input type="text" name="title" value="{{annonce.title}}" class="form-control" required> 
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="company">Entreprise *</label>
+                                           <input type="text" name="company" value="{{annonce.company}}" class="form-control" required> 
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="content">Description *</label>
+                                            <textarea name="content" rows="5" class="form-control ckeditor" required>{{annonce.content}}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <a href="{% url 'annonce/annonces' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                        <button class="btn btn-primary btn-xs"><i class="fa fa-check"></i> Valider</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div data-backdrop="True" class="modal fade" id="message" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-sm" role="document">
+                                    <div class="modal-content" style="background-color: rgb(28,36,47)">
+                                      <div class="modal-header text-center"><span style="color:white"><i class="fa fa-info"></i> Information</span>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true" class="badge badge-warning" style="color:white">X</span></button>
+                                      </div>
+                                      <div class="modal-body" id="contenu_message"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}

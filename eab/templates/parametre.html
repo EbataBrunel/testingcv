@@ -1,0 +1,137 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Paramètres {% endblock %}
+{% block content %}
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        <i class="fa fa-cog"></i> Parametres
+      </h1>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="box">
+              <div class="box-header">
+                            <h5 class="box-title"><i class="fa fa-cog"></i> Parametre</h5>
+                        </div>
+                        <div class="box-body">
+                            <form method="POST" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <input name="id" value="{{ parametre.id }}" hidden="True">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="appname">Nom de l'app *</label>
+                                                            <input type="text" name="appname" value="{{ parametre.appname }}" class="form-control"  required> 
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="appeditor">Editeur de l'app *</label>
+                                                            <input type="text" name="appeditor" value="{{ parametre.appeditor }}" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="version">Version *</label>
+                                                            <input type="text" name="version" value="{{ parametre.version }}" class="form-control"  required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="theme">Thème *</label>
+                                                            <select name="theme" class="form-control" required>
+                                                            <option value="{{ parametre.theme }}">{{ parametre.theme }}</option>
+                                                            <option value="primary">primary</option>
+                                                            <option value="info">info</option>
+                                                            <option value="success">success</option>
+                                                            <option value="danger">danger</option>
+                                                            <option value="dark">dark</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="devise">Devise *</label>
+                                                            <input type="text" name="devise" value="{{ parametre.devise }}" class="form-control"  required>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel panel-default">
+                                        <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="email">Email *</label>
+                                                            <input type="text" name="email" value="{{ parametre.email }}" class="form-control"  required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="phone">Téléphone *</label>
+                                                            <input type="text" name="phone" value="{{ parametre.phone }}" class="form-control"  required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="logo">Logo *</label>
+                                                            <input type="file" name="logo" id="logo" class="form-control">
+                                                            {% if parametre.logo %}
+                                                            <span><img class="img-profile rounded-circle mb-4 mb-lg-0" width="100px" height="100px" src="{{ parametre.logo.url }}" alt="..." /></span>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="width">Longueur du logo *</label>
+                                                            <input type="text" name="width" value="{{ parametre.width_logo }}" class="form-control"  required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="height">Hauteur du logo *</label>
+                                                            <input type="text" name="height" value="{{ parametre.height_logo }}" class="form-control"  required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button class="btn btn-primary btn-sm pull-right"><i class="fa fa-check"></i> Valider </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-- /.container-fluid -->
+{% endblock %}

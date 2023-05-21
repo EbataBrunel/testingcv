@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email</title>
+    <style>
+        body{
+            background-color:gray;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><b>{{ parametre.appname }}</b></h1>
+        <p>Bonjour {{ user.last_name }} {{ user.first_name }},</p>
+        <p style="color: green;" class="center"> Vous recevez ce message en réponse à votre création du compte à {{ parametre.appname }}.</p>
+        <p>Veuillez cliquez sur ce lien pour activer votre compte :</p>
+        <p>http://{{ domain }}{% url 'activate' uidb64=uid token=token %}</p>
+        <p>Merci infinement pour votre visite.</p>
+        <p>Votre nom utilisateur en cas d'oubli : {{ user.username }}</p>
+        <small>Envoyez le {{ date|date:"d/m/Y H:m" }}</small>
+    </div>
+</body>
+</html>

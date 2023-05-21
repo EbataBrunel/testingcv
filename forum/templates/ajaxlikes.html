@@ -1,0 +1,25 @@
+
+{% load static %}
+<div class="modal-header bg-black">
+    <h5 class="modal-title" id="exampleModalLabel">
+        <span align="center"><b><span class="text-primary"><i class="fa fa-thumbs-up"></i></span> J'aime </b><span class="btn btn-primary btn-xs" style="border-radius: 100px;">{{ countlikes }}</span></span>
+    </h5>
+</div>
+<div class="modal-body">
+    <table class="table table-tripped">
+        {% for like in likes %}
+        <tr>
+            {% if like.user.profile.photo %}
+            <td><img src="{{ like.user.profile.photo.url }}" class="img-circle" width="40" height="40" /></td>
+            {% else %}
+            <td><img src="{% static 'dist/img/user.png' %}" class="img-circle" width="40" height="40" /></td>
+            {% endif %}
+            <td>{{ like.user.last_name }} {{ like.user.first_name }}</td>
+            <td><small class="badge badge-dark">{{ like.date|date:"d/m/Y h:m" }}</small></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+</div>

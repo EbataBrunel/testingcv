@@ -1,0 +1,75 @@
+{% extends 'global/base0.html' %}
+{% block title %} {{parametre.appname}} | Documents {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Content-->
+<div class="content-wrapper">
+    <div class="container">
+        <section class="content">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <h3 class="text-center"><b><i class="fa fa-info-circle"></i> Annonces</b></h3>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row" id="courseview">
+                                {% for annonce in annonces %}
+                                <div class="col-md-12 col-lg-12 col-xs-12">
+                                    <div class="panel panel-default">
+                                        <div class="panel-header bg-default">
+                                            <h4><b style="padding-left: 13px;"><i class="fa fa-minus"></i> {{ annonce.title }}</b></h4>
+                                        </div>
+                                        <div class="panel-body" style="border-radius: 10px;">
+                                            <p>{{ annonce.content|safe }}</p>
+                                            <h4></i><b class=" text-primary"><i class="fa fa-university"></i> {{annonce.company}}</b></h4>
+                                            <p>
+                                                {% if request.user.is_superuser %}
+                                                    <button data-html=true class="btn btn-default btn-xs" data-toggle="popover" data-placement="right" data-content="<a href='{% url 'delete-annonce' annonce.id %}' class='text-black'>Supprimer</a>"><i class="fa fa-trash"></i></button> 
+                                                {% endif %}
+                                                <span class="pull-right">{{ annonce.date|date:"d/m/Y" }}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                <!-- Alerts -->
+                                <!--Pagination-->
+                                <div class="row">
+                                    <div class="col-lg-4 col-lg-offset-4 text-center">
+                                        <ul class="pagination">
+                                            {% if annonces.has_previous %}
+                                                <li class="page-item">
+                                                    <a class="page-link text-dark" href="?page={{ annonces.previous_page_number }}"><i class="fa-arrow-circle-left"></i></a>
+                                                </li>
+                                            {% endif %}
+                                    
+                                            <li class="page-item active">
+                                                <a class="page-link bg-dark" href="?page={{ annonces.number }}">{{ annonces.number }}</a>
+                                            </li>
+                                    
+                                            {% if annonces.has_next %}
+                                            <li class="page-item">
+                                                <a class="page-link text-dark" href="?page={{ annonces.next_page_number }}"><i class="fa-arrow-circle-right"></i></a>
+                                            {% endif %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <!--End pagination-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
+                        {% include 'global/_slide.html' %}
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock %}
+        

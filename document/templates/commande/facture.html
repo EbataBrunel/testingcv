@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static  %}
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>PDF</title>
+    <!-- Logo du titre -->
+    <!-- Custom fonts for this template-->
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <style>
+        html{
+            min-height: 100%;
+        }
+        body{
+            margin: 0;
+            padding: 0;
+            position: relative;
+            min-height: 100%;
+            border-radius: 5px;
+            padding:35px;
+        }
+        .container
+        {
+            width:100%;
+            margin: auto;
+        }
+        .danger{
+            color:red;
+        }
+        .primary{
+            color:blue;
+        }
+        #content1
+        {
+            width: 70%;
+            float: left;
+        }
+        #content2
+        {
+            width: 30%;
+            float: right;
+        }
+        #content
+        {
+            padding-left: 350px;
+        }
+        .center{
+            text-align: center;
+        }
+
+        table {
+            table-layout: fixed;
+            width: 100%;
+            border-bottom: 3px solid black;
+            }
+
+            thead th:nth-child(1) {
+            width: 25%;
+            }
+
+            thead th:nth-child(2) {
+            width: 25%;
+            }
+
+            thead th:nth-child(2) {
+            width: 35%;
+            }
+
+            thead th:nth-child(3) {
+            width: 5%;
+            }
+
+            thead th:nth-child(4) {
+            width: 15%;
+            }
+
+            th, td {
+            padding: 15px;
+            }
+            .entete{
+              padding-top:5px;
+              padding-bottom: 10px;
+              background-color:rgb(195, 195, 195);
+            }
+    </style>
+</head>
+
+<body>
+    <!-- Begin Page Content -->
+        <div class="container">
+            <div class="row">
+                <div id="content1">
+                    <p> <b>{{ parametre.appname }}</b></p>
+                    <p> {{ parametre.phone }}</p>
+                    <p> {{ parametre.email }}</p>
+                </div>
+                <div id="content2">
+                    <p>FACTURE n° <b class="primary">{{ commande.id }}</b></p>
+                    <p>Date de facturation {{ commande.datecommande }}</p>
+                    <p>-------------</p>
+                </div>
+            </div>
+            <div class="row">
+                <div id="content">
+                    <br><br>
+                    <p><b>{{ commande.user.last_name }} {{ commande.user.first_name }}</b></p>
+                    <p>{{ commande.user.profile.address }}</p>
+                    <p>{{ commande.user.profile.phone }}</p>
+                    <p>{{ commande.user.email }}</p>
+                </div>
+            </div>
+            <br>
+            <div style="margin-top: 50px;">
+                <p>Merci d'avoir choisi {{ parametre.appname }}</p>
+                <br>
+                <table>
+                    <tr class="entete">
+                        <th>Thèmes</th>
+                        <th>Composents</th>
+                        <th>Titres</th>
+                        <th>Qté</th>
+                        <th>Prix</th>
+                    </tr>
+                    {% for achat in achats %}
+                    <tr>
+                        <td>{{ achat.discipline }}</td>
+                        <td>{{ achat.composant }}</td>
+                        <td>{{ achat.title }}</td>
+                        <td>{{ achat.quantite }}</td>
+                        <td class="danger">{{ achat.price }} {{ parametre.devise }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3"><span class="center"><b>Total</b></span></td>
+                        <td><b>{{ qtetotal }}</b></td>
+                        <td class="danger"><b>{{ total }}{{ parametre.devise }}</b></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    <!-- /.container-fluid -->
+
+</body>
+
+</html>

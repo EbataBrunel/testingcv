@@ -1,0 +1,140 @@
+{% extends 'global/base0.html' %}
+{% block title %} {{ parametre.appname }} | Panier {% endblock %}
+{% block content %}
+{% load static %}
+<!-- Page Content-->
+<div class="content-wrapper">
+    <div class="container">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+              <i class="fa fa-book"></i> Documents
+            </h1>
+            <ol class="breadcrumb">
+              <li><a href="{% url 'home' %}"><i class="fa fa-home"></i>Accueil</a></li>
+              <li><a href="{% url 'cours/cours' %}">Documents</a></li>
+              <li class="active">Panier</li>
+            </ol>
+        </section>
+        <section class="content">
+            <div class="box box-default">
+                <div class="box-header with-border">
+                    <p class="text-center" id="panier">
+                        <a class="btn btn-default btn-sm" style="background-color: rgb(21, 139, 142); color:white;"><i class="fa fa-shopping-cart"></i> Panier <b class="badge badge-danger" style="color: yellow;">{{ count }}</b></a>
+                    </p>
+                </div>
+                <div class="box-body">
+                    <div class="row">
+                        <h4 align="center"><b><i class="fa fa-cog"></i> Détails de votre panier</b></h4>
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1">
+                                <div class="card h-100">
+                                    <div class="panel-header"><h4 class="text-center"><b><i class="fa fa-table"></i> Liste des documents selectionnés</b></h4></div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped">
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Disciplines</th>
+                                                    <th>Composants</th>
+                                                    <th>Titres</th>
+                                                    <th>Quantité</th>
+                                                    <th>Prix</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                {% for panier in paniers %}
+                                                <tr>
+                                                    <td>{{ panier.id }}</td>
+                                                    <td>{{ panier.discipline }}</td>
+                                                    <td>{{ panier.composant }}</td>
+                                                    <td>{{ panier.title }}</td>
+                                                    <td>{{ panier.quantite }}</td>
+                                                    <td class="text-danger">{{ panier.price }} {{ parametre.devise }}</td>
+                                                    <td>
+                                                        <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#deleteModal{{ panier.id }}"> <i class="fa fa-trash"></i></a>&nbsp;
+                                                        <a class="btn btn-default btn-xs" href="#" data-toggle="modal" data-target="#detailModal{{ panier.id }}"> <i class="fa fa-eye"></i></a>&nbsp;
+                                                        <!-- Delete Modal-->
+                                                        <div class="modal fade" id="deleteModal{{ panier.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
+                                                            <div class="modal-dialog modal-sm" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header danger">
+                                                                        <h5 class="modal-title" id="exampleModalLabel"><span align="center"><i class="fa fa-trash"></i> Suppression</span></h5>
+                                                                    </div>
+                                                                    <div class="modal-body">Etes-vous certain de vouloir supprimer la commande {{ panier.id }} ?</div>
+                                                                    <div class="modal-footer">
+                                                                        <button class="btn btn-default btn-xs" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Annuler</button>
+                                                                        <a class="btn btn-danger btn-xs" href="{% url 'commande/del_panier' panier.id %}"><i class="fa fa-trash"></i> Supprimer</a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Logout Modal-->
+                                                        <div class="modal fade" id="detailModal{{ panier.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
+                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header danger">
+                                                                        <h5 class="modal-title text-center" id="exampleModalLabel"><span align="center"><i class="fa fa-cog"></i> Détails du document n° <b class="text-danger">{{ panier.id }}</b></span></h5>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-striped">
+                                                                            <tr>
+                                                                                <th>Thème  </th>
+                                                                                <td>{{ panier.discipline }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Composant  </th>
+                                                                                <td>{{ panier.composant }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Titre  </th>
+                                                                                <td>{{ panier.title }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Quanité  </th>
+                                                                                <td>{{ panier.quantite }}</td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Prix  </th>
+                                                                                <td><b class="text-danger">{{ panier.price }} {{ parametre.devise }}</b></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                        <hr>
+                                                                        <p>
+                                                                            <b>Description : </b><br>
+                                                                            {{ panier.comment }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="modal-footer text-center">
+                                                                        <button class="btn btn-default btn-sm" type="button" data-dismiss="modal"><i class="fa fa-remove"></i> Fermer</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                                <tr>
+                                                    <td colspan="4" class="text-center">Total</td>
+                                                    <td class="text-primary"><b>{{ quantitetotale }}</b></td>
+                                                    <td colspan="2" class="text-primary"><b>{{ prixtotal }} {{ parametre.devise }}</b></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <a href="{% url 'cours/cours' %}" class="btn btn-default btn-xs"><i class="fa fa-arrow-circle-left"></i> Retour</a>&nbsp;
+                                        <a href="{% url 'commande/paiement' %}" class="btn btn-primary btn-xs"><i class="fa fa-check"></i> Commander </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Call to Action-->
+        </section>
+    </div>
+</div>
+{% endblock %}
+        

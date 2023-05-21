@@ -1,0 +1,87 @@
+{% extends 'global/base.html' %}
+{% block title %} {{parametre.appname}} | Clients {% endblock %}
+{% block content %}
+{% load static %}
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Utilisateurs
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i> Tableau de bord</a></li>
+            <li><a href="{% url 'users/users' %}">Administrateurs</a></li>
+            <li class="active">Détails</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="row">
+            <div class="col-xs-12">
+
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title text-info"><i class="fa fa-user"></i> Détails des informations de <b>{{ user.username }}</b> </h3>
+                </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <table class="table">
+                                        <tr>
+                                            <th>NOMS : </th>
+                                            <td>{{ user.last_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>PRENOMS : </th>
+                                            <td>{{ user.first_name }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>NOM UTILISATEUR : </th>
+                                            <td>{{ user.username }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>SEXE </th>
+                                            <td>{{ user.profile.gender }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>ADRESSE </th>
+                                            <td>{{ user.profile.address }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>TELEPHONE <i class="fa fa-phone"></i> </th>
+                                            <td>{{ user.profile.phone }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>EMAIL <i class="fa fa-envelope"></i> </th>
+                                            <td>{{ user.email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>PROFESSION </th>
+                                            <td>{{ user.profile.profession }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-5" align="center">
+                                    {% if user.profile.photo %}
+                                    <img class="img-circle img-fluid" width="300px" height="350px" src="{{ user.profile.photo.url }}">
+                                    <p><span align="center">Membre depuis le <b>{{ user.date_joined|date:"d/m/Y" }}</b></span></p>
+                                    {% else %}
+                                    <img class="img-circle img-fluid" width="300px" src="{% static 'img/user.png' %}">
+                                    <p><span align="center">Membre depuis le <b>{{ user.date_joined|date:"d/m/Y" }}</b></span></p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div>
+                                <a href="{% url 'users/users' %}" class="btn btn-default btn-sm"><i class="fa fa-arrow-circle-left"></i> Retour</a>
+                            </div>
+                        </div>
+                    </div><!-- /.box -->
+                </div><!-- /.col -->
+              </div><!-- /.row -->
+            </section><!-- /.content -->
+          </div><!-- /.content-wrapper -->
+    {% endblock %}
+    

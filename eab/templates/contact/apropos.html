@@ -1,0 +1,38 @@
+
+{% extends 'global/base0.html' %}
+{% block title %} {{ parametre.appname }} | A propos {% endblock %}
+{% block content %}
+{% load static %}
+
+<!-- Full Width Column -->
+<div class="content-wrapper">
+    <div class="container">
+      <!-- Main content -->
+      <section class="content">
+        <div class="box box-default">
+          <div class="box-header with-border">
+            <h3 class="text-center"><b><i class="fa fa-inbox"></i> A propos</b></h3>
+          </div>
+          <div class="box-body">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1 bg-gray" style="border-radius: 10px;">
+                    <br>
+                    <p>{{ parametre.appname }} a vu le jour depuis juillet 2023, il a été mis en place par {{ parametre.appeditor }}</p>
+                    <p>Elle est aux services des étudiants qui veulent approfondir leurs connaissances à travers des documents qui sont mis à leurs dispositions</p>
+                    <p>Les documents qui sont mis à votre disposition sont étudiés de près avant d'être publié.</p>
+
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    {% include 'global/_slide.html' %}
+                </div>
+            </div>
+          </div><!-- /.box-body -->
+        </div><!-- /.box -->
+      </section><!-- /.content -->
+    </div><!-- /.container -->
+  </div><!-- /.content-wrapper -->
+{% endblock %}
+        

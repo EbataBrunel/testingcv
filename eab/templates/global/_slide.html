@@ -1,0 +1,25 @@
+
+<!-- Call to Action-->
+<div class="bg-gray text-center" style="padding-top: 20px;padding-bottom: 20px; border-radius: 10px;">
+    <div class="card-body"><p class="text-white m-0">Ces enseignants sont à votre disposiion pour vous aider dans votre parcours scolaire, vous pouvez donc les contacter en cas de besoin.</p></div>
+</div>
+<!-- Content Row-->
+<br>
+<div class="row">
+    {% for user in userpriorities %}
+    <div class="col-md-4">
+        <div class="panel panel-default h-100">
+            <div class="panel-body box-shadow">
+                <h3 class="card-title">{{ user.last_name }}</h3>
+                <p class="card-text">{{ user.profile.apropos|truncatewords:50 }}</p>
+            </div>
+            <div class="panel-footer">
+                <a class="btn btn-default btn-xs" href="{% url 'cv/cv' user.id %}"><i class="fa fa-eye"></i> Voir plus</a>&nbsp;
+                {% if user.profile.droitmes == 1 %}
+                <a href="{% url 'contact/contactuser' user.id %}" class="btn btn-primary btn-xs"><i class="fa fa-envelope"></i> Envoyer un message</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

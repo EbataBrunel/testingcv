@@ -1,0 +1,53 @@
+{% extends 'global/base0.html' %}
+{% block title %} EAJC | Echec {% endblock %}
+{% block content %}
+{% load static %}
+{% load bootstrap_icons %}
+        <!-- Page Content-->
+        <div class="container px-4 px-lg-5">
+            <div class="row mt-3 bg-{{ parametre.theme }} text-white" style="border-radius: 5px;">
+                <h4 align="center" class="mt-4">Echec</h4>
+            </div>
+            <div class="col-lg-12">
+                <br>
+                <h5 class="text-center text-danger">Désolé, l'opération de votre commande a échouée.</h5>
+                <p class="text-danger text-center">{% bs_icon 'x-circle-fill' size='2.5em' %}</p>
+                <a href="{% url 'cours' %}" class="btn btn-secondary btn-sm"><i class="fa fa-arrow-circle-left"></i>{% bs_icon 'arrow-left' %} Retour</a>
+            </div>  
+            <!-- Call to Action-->
+            <div class="card text-white bg-{{ parametre.theme }} my-5 py-4 text-center">
+                <div class="card-body"><p class="text-white m-0">Ces enseignants sont à votre disposiion pour vous aider dans votre parcours scolaire, vous pouvez donc les contacter en cas de besoin.</p></div>
+            </div>
+            <!-- Content Row-->
+            <div class="row gx-4 gx-lg-5">
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">NGAKALA</h2>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" href="">{% bs_icon 'eye' %}Voir plus</a></div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">BIKORIMANA</h2>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod tenetur ex natus at dolorem enim! Nesciunt pariatur voluptatem sunt quam eaque, vel, non in id dolore voluptates quos eligendi labore.</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" href="">{% bs_icon 'eye' %}Voir plus</a></div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h2 class="card-title">NKOUA</h2>
+                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem magni quas ex numquam, maxime minus quam molestias corporis quod, ea minima accusamus.</p>
+                        </div>
+                        <div class="card-footer"><a class="btn btn-primary btn-sm" href="">{% bs_icon 'eye' %}Voir plus</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+        
